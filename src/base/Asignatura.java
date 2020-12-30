@@ -57,4 +57,9 @@ public class Asignatura {
     public void setEtapa(String etapa) {
         this.etapa = etapa;
     }
+
+    @Override
+    public String toString() {
+        return "nombre: " + nombre  + ", rama: " + rama  + ", curso: " + curso + ", etapa: " + etapa;
+    }
 }

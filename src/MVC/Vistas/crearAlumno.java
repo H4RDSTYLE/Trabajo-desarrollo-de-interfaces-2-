@@ -32,13 +32,18 @@ public class crearAlumno extends JDialog {
     private void initUI() {
         setContentPane(contentPane);
         getRootPane().setDefaultButton(btnSalir);
-        dp.setDate(LocalDate.now());
         setBounds(new Rectangle(600,300));
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setVisible(true);
         setModal(true);
+        setVisible(true);
+        dp.setDate(LocalDate.now());
         setResizable(false);
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                dispose();
+            }
+        });
     }
 
     private void addActionListener() {
@@ -82,12 +87,6 @@ public class crearAlumno extends JDialog {
                 crearAlumno();
             }
         });
-
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                dispose();
-            }
-        });
     }
 
     public void crearAlumno(){
@@ -107,9 +106,16 @@ public class crearAlumno extends JDialog {
                 genero = "Masculino";
             if(femaleRB.isSelected())
                 genero = "Femenino";
-            comprobarNombre(nombre);
-            comprobarDNI(dni);
-            modelo.getAlumnos().add(new Alumno(nombre, date, dni, genero));
+            if (nombre.isEmpty())
+                throw new CampoBlancoException("nombre");
+            if (dni.isEmpty())
+                throw new CampoBlancoException("dni");
+            for(Alumno alumno : modelo.getAlumnos()){
+                if(alumno.getDni().equals(dni))
+                    throw new DniRepetidoException();
+            }
+            Alumno alumno = new Alumno(nombre, date, dni, genero);
+            modelo.getAlumnos().add(alumno);
             return true;
         } catch (Exception e){
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -117,20 +123,6 @@ public class crearAlumno extends JDialog {
         }
     }
 
-    private void comprobarNombre(String nombre) throws Exception {
-        if (nombre.isEmpty())
-            throw new CampoBlancoException("nombre");
-    }
-
-    private void comprobarDNI(String dni) throws Exception {
-        if (dni.isEmpty())
-            throw new CampoBlancoException("dni");
-        for(Alumno alumno : modelo.getAlumnos()){
-            if(alumno.getDni().equals(dni))
-                throw new DniRepetidoException();
-
-        }
-    }
 
     private void limpiarCampos() {
         helicopteroRB.setSelected(true);

@@ -56,4 +56,9 @@ public class Examen {
     public void setProfesor(String profesor) {
         this.profesor = profesor;
     }
+
+    @Override
+    public String toString() {
+        return "asignatura: " + asignatura.getNombre() + ", alumno: " + alumno.getNombre() + ", fechaRealización: " + fechaRealización + ", nota: " + nota + ", profesor: " + profesor;
+    }
 }

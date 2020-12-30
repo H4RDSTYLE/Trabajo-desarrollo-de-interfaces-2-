@@ -57,4 +57,9 @@ public class Alumno {
     public void setSexo(String sexo) {
         this.sexo = sexo;
     }
+
+    @Override
+    public String toString() {
+        return "nombre: " + nombre + ", fechaNacimiento: " + fechaNacimiento + ", dni: " + dni + ", sexo: " + sexo;
+    }
 }

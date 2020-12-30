@@ -1,6 +1,7 @@
 package MVC.Vistas;
 
 import Excepciones.CampoBlancoException;
+import Excepciones.ObjetoIgualException;
 import MVC.MC.Modelo;
 import base.Asignatura;
 
@@ -22,6 +23,7 @@ public class crearAsignatura extends JDialog {
     private Modelo modelo;
 
     public crearAsignatura(Modelo modelo) {
+        System.out.println("HA entrado");
         this.modelo = modelo;
         anadirComboBox();
         actionListeners();
@@ -34,7 +36,7 @@ public class crearAsignatura extends JDialog {
         comboBoxEtapa.addItem("Primaria");
         comboBoxEtapa.addItem("Secundaria");
         comboBoxEtapa.addItem("Bachillerato");
-
+        comboBoxCurso.setEnabled(false);
     }
 
     private void actionListeners() {
@@ -165,36 +167,42 @@ public class crearAsignatura extends JDialog {
             if (tfNombre.getText().isEmpty())
                 throw new CampoBlancoException("nombre");
             if(comboBoxEtapa.getSelectedItem().equals("")) {
-                throw new CampoBlancoException(comboBoxEtapa.getName());
+                throw new CampoBlancoException("etapa");
             }
             else {
-                comprobarComboBox(comboBoxCurso);
-                comprobarComboBox(comboBoxEtapa);
-                modelo.getAsignaturas().add(new Asignatura(tfNombre.getText(), getSelectedRama(), Integer.valueOf(comboBoxCurso.getSelectedItem().toString()), comboBoxEtapa.getSelectedItem().toString()));
+                if(comboBoxCurso.getSelectedItem().equals(null)||comboBoxCurso.getSelectedItem().equals("")){
+                    throw new CampoBlancoException("curso");
+                }
+                Asignatura asignatura = new Asignatura(tfNombre.getText(), getSelectedRama(), Integer.valueOf(comboBoxCurso.getSelectedItem().toString()), comboBoxEtapa.getSelectedItem().toString());
+                for(Asignatura asignaturaa : modelo.getAsignaturas()) {
+                    if (asignatura.toString().equals(asignaturaa.toString()))
+                        throw new ObjetoIgualException("asignatura");
+                }
+                modelo.getAsignaturas().add(asignatura);
                 return true;
             }
-        } catch (CampoBlancoException e) {
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
     }
 
-    private void comprobarComboBox(JComboBox cb) throws CampoBlancoException {
-        if(cb.getSelectedItem().equals(null)||cb.getSelectedItem().equals("")){
-            throw new CampoBlancoException(cb.getName().toString());
-        }
-    }
-
     private void configUI() {
-        setVisible(true);
+        setContentPane(contentPane);
+        getRootPane().setDefaultButton(btnSalir);
         setBounds(new Rectangle(515, 210));
         setLocationRelativeTo(null);
-        setContentPane(contentPane);
         setModal(true);
-        getRootPane().setDefaultButton(btnSalir);
-        comboBoxCurso.setEnabled(false);
+        setVisible(true);
         comboBoxEtapa.setName("Etapa");
         comboBoxCurso.setName("Curso");
+        setResizable(false);
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                dispose();
+            }
+        });
     }
 
 }
