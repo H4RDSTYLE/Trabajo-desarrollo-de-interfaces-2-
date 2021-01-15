@@ -129,6 +129,7 @@
             </constraints>
             <properties>
               <text value="Salir"/>
+              <toolTipText value="Salir"/>
             </properties>
           </component>
           <hspacer id="c560d">
@@ -142,6 +143,7 @@
             </constraints>
             <properties>
               <text value="Modificar"/>
+              <toolTipText value="Modificar"/>
             </properties>
           </component>
         </children>

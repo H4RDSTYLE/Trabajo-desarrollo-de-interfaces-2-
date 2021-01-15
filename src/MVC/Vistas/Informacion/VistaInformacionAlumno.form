@@ -14,6 +14,7 @@
         </constraints>
         <properties>
           <text value="Nombre"/>
+          <toolTipText value="Nombre"/>
         </properties>
       </component>
       <component id="7be9f" class="javax.swing.JLabel">
@@ -22,6 +23,7 @@
         </constraints>
         <properties>
           <text value="Fecha de Nacimiento"/>
+          <toolTipText value="Fecha de Nacimiento"/>
         </properties>
       </component>
       <component id="c0e32" class="javax.swing.JLabel">
@@ -30,6 +32,7 @@
         </constraints>
         <properties>
           <text value="DNI"/>
+          <toolTipText value="DNI"/>
         </properties>
       </component>
       <component id="40ba6" class="javax.swing.JLabel">
@@ -38,6 +41,7 @@
         </constraints>
         <properties>
           <text value="Sexo"/>
+          <toolTipText value="Sexo"/>
         </properties>
       </component>
       <component id="a7666" class="javax.swing.JTextField" binding="tfNombre">
@@ -101,6 +105,7 @@
             <properties>
               <icon value="images/helicopterIcon.jpg"/>
               <text value=""/>
+              <toolTipText value="Helicoptero Apache"/>
             </properties>
           </component>
           <component id="fcad9" class="javax.swing.JLabel">
@@ -110,6 +115,7 @@
             <properties>
               <icon value="images/38373.png"/>
               <text value=""/>
+              <toolTipText value="Femenino"/>
             </properties>
           </component>
           <component id="f4c6a" class="javax.swing.JLabel">
@@ -119,6 +125,7 @@
             <properties>
               <icon value="images/46042.png"/>
               <text value=""/>
+              <toolTipText value="Masculino"/>
             </properties>
           </component>
         </children>
@@ -137,6 +144,7 @@
             </constraints>
             <properties>
               <text value="Editar"/>
+              <toolTipText value="Editar"/>
             </properties>
           </component>
           <component id="c4590" class="javax.swing.JButton" binding="btnCancelar">
@@ -145,6 +153,7 @@
             </constraints>
             <properties>
               <text value="Cancelar"/>
+              <toolTipText value="Cancelar"/>
             </properties>
           </component>
         </children>
@@ -155,6 +164,7 @@
         </constraints>
         <properties>
           <text value="Examenes"/>
+          <toolTipText value="Examenes"/>
         </properties>
       </component>
       <scrollpane id="5d4e">

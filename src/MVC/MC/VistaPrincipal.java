@@ -7,6 +7,7 @@ import base.Examen;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 
 public class VistaPrincipal extends Component{
     private JPanel panel1;
@@ -25,12 +26,37 @@ public class VistaPrincipal extends Component{
     private JButton btnGuardar;
     private JButton btnCargar;
     private JButton button3;
+    private JPanel VerEditar;
 
     public VistaPrincipal() {
+        setMnemonics();
+        setToolTips();
         initUI();
         initListas();
-
     }
+
+    private void setToolTips() {
+        btnGuardar.setToolTipText("Guardar");
+        btnCargar.setToolTipText("Cargar");
+        tabbedPane1.setToolTipTextAt(0, "Crear");
+        tabbedPane1.setToolTipTextAt(1, "Ver/Editar");
+        tabbedPane1.setToolTipTextAt(2, "Opciones");
+        tabbedPane2.setToolTipTextAt(0, "Ver Alumnos");
+        tabbedPane2.setToolTipTextAt(1, "Ver Asignaturas");
+        tabbedPane2.setToolTipTextAt(2, "Ver Examenes");
+    }
+
+    private void setMnemonics() {
+        btnGuardar.setMnemonic(KeyEvent.VK_G);
+        btnCargar.setMnemonic(KeyEvent.VK_H);
+        tabbedPane1.setMnemonicAt(0, KeyEvent.VK_C);
+        tabbedPane1.setMnemonicAt(1, KeyEvent.VK_V);
+        tabbedPane1.setMnemonicAt(2, KeyEvent.VK_O);
+        tabbedPane2.setMnemonicAt(0, KeyEvent.VK_A);
+        tabbedPane2.setMnemonicAt(1, KeyEvent.VK_S);
+        tabbedPane2.setMnemonicAt(2, KeyEvent.VK_E);
+    }
+
 
     public JButton getBtnGuardar() {
         return btnGuardar;

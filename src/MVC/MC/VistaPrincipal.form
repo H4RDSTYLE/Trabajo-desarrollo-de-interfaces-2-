@@ -14,7 +14,9 @@
             <preferred-size width="200" height="200"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <toolTipText value="Crear"/>
+        </properties>
         <border type="none"/>
         <children>
           <grid id="4555b" binding="panelCrear" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
@@ -22,9 +24,21 @@
             <constraints>
               <tabbedpane title="Crear"/>
             </constraints>
-            <properties/>
+            <properties>
+              <toolTipText value="Crear"/>
+            </properties>
             <border type="none"/>
             <children>
+              <component id="f51ae" class="javax.swing.JButton" binding="btnAlumno">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <icon value="images/leer-icon.png"/>
+                  <text value=""/>
+                  <toolTipText value="Agregar Alumno"/>
+                </properties>
+              </component>
               <component id="b3d6" class="javax.swing.JButton" binding="btnAsignatura">
                 <constraints>
                   <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -32,6 +46,7 @@
                 <properties>
                   <icon value="images/2ead0929b51f1f79ba14e62a913f2444.png"/>
                   <text value=""/>
+                  <toolTipText value="Agregar Asignatura"/>
                 </properties>
               </component>
               <component id="26b3e" class="javax.swing.JButton" binding="btnExamen">
@@ -41,25 +56,19 @@
                 <properties>
                   <icon value="images/descarga (1).png"/>
                   <text value=""/>
-                </properties>
-              </component>
-              <component id="f51ae" class="javax.swing.JButton" binding="btnAlumno">
-                <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <icon value="images/leer-icon.png"/>
-                  <text value=""/>
+                  <toolTipText value="Agregar Examen"/>
                 </properties>
               </component>
             </children>
           </grid>
-          <grid id="b3a55" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="b3a55" binding="VerEditar" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <tabbedpane title="Ver/Editar"/>
             </constraints>
-            <properties/>
+            <properties>
+              <toolTipText value="Ver y editar"/>
+            </properties>
             <border type="none"/>
             <children>
               <tabbedpane id="98234" binding="tabbedPane2">
@@ -134,7 +143,9 @@
             <constraints>
               <tabbedpane title="Opciones"/>
             </constraints>
-            <properties/>
+            <properties>
+              <toolTipText value="Opciones"/>
+            </properties>
             <border type="none"/>
             <children/>
           </grid>
@@ -161,6 +172,7 @@
               <background color="-1"/>
               <icon value="images/descarga (3).png"/>
               <text value=""/>
+              <toolTipText value="Cargar"/>
             </properties>
           </component>
           <component id="f3bfa" class="javax.swing.JButton" binding="button3" default-binding="true">
@@ -179,6 +191,7 @@
               <background color="-1"/>
               <icon value="images/descarga (2).png"/>
               <text value=""/>
+              <toolTipText value="Guardar"/>
             </properties>
           </component>
           <grid id="7d0fa" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
