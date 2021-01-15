@@ -1,8 +1,9 @@
 package base;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Asignatura {
+public class Asignatura implements Serializable {
 
     private String nombre;
     private String rama;
@@ -34,32 +35,21 @@ public class Asignatura {
         this.rama = rama;
     }
 
-    public void addExamen(Examen examen){
-        examenes.add(examen);
-    }
-
-    public void delExamen(Examen examen){
-        examenes.remove(examen);
-    }
-
     public int getCurso() {
         return curso;
-    }
-
-    public void setCurso(int curso) {
-        this.curso = curso;
     }
 
     public String getEtapa() {
         return etapa;
     }
 
-    public void setEtapa(String etapa) {
-        this.etapa = etapa;
-    }
 
     @Override
     public String toString() {
         return "nombre: " + nombre  + ", rama: " + rama  + ", curso: " + curso + ", etapa: " + etapa;
+    }
+
+    public ArrayList<Examen> getExamenes() {
+        return examenes;
     }
 }

@@ -1,9 +1,10 @@
 package base;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class Alumno {
+public class Alumno implements Serializable {
     private String nombre;
     private LocalDate fechaNacimiento;
     private String dni;
@@ -18,12 +19,8 @@ public class Alumno {
         examenes = new ArrayList<>();
     }
 
-    public void addExamen(Examen examen){
-        examenes.add(examen);
-    }
-
-    public void delExamen(Examen examen){
-        examenes.remove(examen);
+    public ArrayList<Examen> getExamenes() {
+        return examenes;
     }
 
     public String getNombre() {

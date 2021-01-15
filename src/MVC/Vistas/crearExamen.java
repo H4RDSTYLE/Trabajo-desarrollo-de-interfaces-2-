@@ -2,12 +2,12 @@ package MVC.Vistas;
 
 import Excepciones.CampoBlancoException;
 import Excepciones.ObjetoIgualException;
+import MVC.MC.Controlador;
 import MVC.MC.Modelo;
 import base.Alumno;
 import base.Asignatura;
 import base.Examen;
 import com.github.lgooddatepicker.components.DatePicker;
-import org.jdatepicker.impl.JDatePanelImpl;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,28 +25,29 @@ public class crearExamen extends JDialog {
     private JButton crearButton;
     private DatePicker datePicker;
     private Modelo modelo;
+    private Controlador controlador;
 
-    public crearExamen(Modelo modelo) {
+    public crearExamen(Modelo modelo, Controlador controlador) {
         this.modelo = modelo;
+        this.controlador = controlador;
         initComboBox();
         AddActionListener();
         initUI();
+
     }
 
     private void initComboBox() {
-        if(!modelo.getAlumnos().isEmpty()) {
+        comboBoxAlumno.addItem("");
+        if (!modelo.getAlumnos().isEmpty()) {
             for (Alumno alumno : modelo.getAlumnos()) {
                 comboBoxAlumno.addItem(alumno.toString());
             }
-        }else{
-            comboBoxAlumno.addItem("");
-        }
-        if(!modelo.getAsignaturas().isEmpty()) {
-            for (Asignatura asignatura : modelo.getAsignaturas()) {
-                comboBoxAsignatura.addItem(asignatura.toString());
-            }
-        }else{
             comboBoxAsignatura.addItem("");
+            if (!modelo.getAsignaturas().isEmpty()) {
+                for (Asignatura asignatura : modelo.getAsignaturas()) {
+                    comboBoxAsignatura.addItem(asignatura.toString());
+                }
+            }
         }
     }
 
@@ -56,9 +57,9 @@ public class crearExamen extends JDialog {
         setBounds(new Rectangle(650, 300));
         setLocationRelativeTo(null);
         setModal(true);
-        setVisible(true);
-        datePicker.setDate(LocalDate.now());
         setResizable(false);
+        datePicker.setDate(LocalDate.now());
+        setVisible(true);
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
@@ -92,28 +93,46 @@ public class crearExamen extends JDialog {
     }
 
     private boolean comprobar() {
+        Float nota;
         try{
             if(profesorTF.getText().isEmpty())
                 throw new CampoBlancoException("profesor");
             if(notaTF.getText().isEmpty())
                 throw new CampoBlancoException("nota");
             try{
-                Float.valueOf(notaTF.getText());
+                nota = Float.valueOf(notaTF.getText().replace(",","."));
+                if (nota<0 || nota>10)
+                    throw new Exception("La nota tiene que estar entre 0 y 10");
             }catch (Exception e){
-                throw new Exception("La nota tiene que ser un número decimal");
+                if(e.getMessage()!="")
+                    throw new Exception(e.getMessage());
+                throw new Exception("La nota tiene que estar entre 0 y 10");
             }
-            if(comboBoxAsignatura.getSelectedItem().equals(""))
-                throw new CampoBlancoException("asignatura");
-            if(comboBoxAlumno.getSelectedItem().equals(""))
-                throw new CampoBlancoException("alumno");
-            Examen examen = new Examen(modelo.getAsignaturas().get(comboBoxAsignatura.getSelectedIndex()), modelo.getAlumnos().get(comboBoxAlumno.getSelectedIndex()), datePicker.getDate(), Float.valueOf(notaTF.getText()), profesorTF.getText());
+            Asignatura asignatura;
+            if(comboBoxAsignatura.getSelectedItem()==null||comboBoxAsignatura.getSelectedItem().equals(""))
+                asignatura = null;
+            else
+                asignatura = modelo.getAsignaturas().get(comboBoxAsignatura.getSelectedIndex()-1);
+            Alumno alumno;
+            if(comboBoxAsignatura.getSelectedItem()==null||comboBoxAlumno.getSelectedItem().equals(""))
+                alumno = null;
+            else
+                alumno = modelo.getAlumnos().get(comboBoxAlumno.getSelectedIndex()-1);
+            Examen examen = new Examen(asignatura, alumno, datePicker.getDate(), nota, profesorTF.getText());
+            if(asignatura!=null)
+                modelo.getAsignaturas().get(comboBoxAsignatura.getSelectedIndex()-1).getExamenes().add(examen);
+            if(alumno!=null)
+                modelo.getAlumnos().get(comboBoxAlumno.getSelectedIndex()-1).getExamenes().add(examen);
             for(Examen exameen : modelo.getExamenes()){
                 if(exameen.toString().equals(examen.toString()))
                     throw new ObjetoIgualException("examen");
             }
             modelo.getExamenes().add(examen);
+            JOptionPane.showMessageDialog(null, "Examen introducido con éxito", "Información", JOptionPane.INFORMATION_MESSAGE);
+            controlador.refrescarListaExamenes();
             return true;
         }catch(Exception e){
+            e.printStackTrace();
             JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }

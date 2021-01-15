@@ -2,6 +2,7 @@ package MVC.Vistas;
 
 import Excepciones.CampoBlancoException;
 import Excepciones.DniRepetidoException;
+import MVC.MC.Controlador;
 import MVC.MC.Modelo;
 import base.Alumno;
 import com.github.lgooddatepicker.components.DatePicker;
@@ -22,9 +23,12 @@ public class crearAlumno extends JDialog {
     private JTextField tfDNI;
     private DatePicker dp;
     private Modelo modelo;
+    private Controlador controlador;
 
-    public crearAlumno(Modelo modelo) {
+    public crearAlumno(Modelo modelo, Controlador controlador) {
+        dp.setDate(LocalDate.now());
         this.modelo = modelo;
+        this.controlador = controlador;
         addActionListener();
         initUI();
     }
@@ -92,6 +96,7 @@ public class crearAlumno extends JDialog {
     public void crearAlumno(){
         if(comprobarYCrearAlumno())
             limpiarCampos();
+        controlador.refrescarListaAlumnos();
     }
 
     private boolean comprobarYCrearAlumno() {
@@ -116,9 +121,10 @@ public class crearAlumno extends JDialog {
             }
             Alumno alumno = new Alumno(nombre, date, dni, genero);
             modelo.getAlumnos().add(alumno);
+            JOptionPane.showMessageDialog(null, "Alumno introducido con éxito", "Información", JOptionPane.INFORMATION_MESSAGE);
             return true;
         } catch (Exception e){
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
     }

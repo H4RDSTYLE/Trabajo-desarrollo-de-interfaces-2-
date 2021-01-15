@@ -4,6 +4,7 @@ import base.Alumno;
 import base.Asignatura;
 import base.Examen;
 
+import java.io.*;
 import java.util.ArrayList;
 
 public class Modelo {
@@ -37,6 +38,58 @@ public class Modelo {
     public ArrayList<Asignatura> getAsignaturas() {
         return asignaturas;
     }
+
+    public void cambiarExamenesAlumno(Alumno alumnoABuscar, Alumno alumnoPorElQueCambiar){
+        for(Examen examen : getExamenes()){
+            if(examen.getAlumno().equals(alumnoABuscar))
+                examen.setAlumno(alumnoPorElQueCambiar);
+        }
+    }
+
+    public void cambiarExamenesAsignatura(Asignatura asignaturaABuscar, Asignatura asignaturaPorLaQueCambiar){
+        if(asignaturaPorLaQueCambiar==null)
+            System.out.print("Ha entrado");
+        for(Examen examen : getExamenes()){
+            if(examen.getAsignatura().equals(asignaturaABuscar))
+                examen.setAsignatura(asignaturaPorLaQueCambiar);
+        }
+    }
+
+    public void guardarDatos(File fichero) throws IOException {
+
+        FileOutputStream fos = new FileOutputStream(fichero);
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+        oos.writeObject(examenes);
+        oos.writeObject(alumnos);
+        oos.writeObject(asignaturas);
+        oos.close();
+    }
+
+    @SuppressWarnings({ "unchecked"})
+    public void cargarDatos(File fichero) throws ClassNotFoundException, IOException {
+        FileInputStream fis = new FileInputStream(fichero);
+        ObjectInputStream ois = new ObjectInputStream(fis);
+
+        examenes = (ArrayList<Examen>) ois.readObject();
+        alumnos = (ArrayList<Alumno>) ois.readObject();
+        asignaturas = (ArrayList<Asignatura>) ois.readObject();
+
+        ois.close();
+    }
+
+    public void eliminarExamenesDeAlumnos(Examen examen) {
+        for (Alumno alumno : getAlumnos()) {
+            alumno.getExamenes().remove(examen);
+        }
+    }
+
+    public void eliminarExamenesDeAsignaturas(Examen examen) {
+        for (Asignatura asignatura : getAsignaturas()) {
+            asignatura.getExamenes().remove(examen);
+        }
+    }
+
 
     public void setAsignaturas(ArrayList<Asignatura> asignaturas) {
         this.asignaturas = asignaturas;

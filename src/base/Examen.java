@@ -1,8 +1,9 @@
 package base;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Examen {
+public class Examen implements Serializable {
     private Asignatura asignatura;
     private Alumno alumno;
     private LocalDate fechaRealización;
@@ -59,6 +60,19 @@ public class Examen {
 
     @Override
     public String toString() {
-        return "asignatura: " + asignatura.getNombre() + ", alumno: " + alumno.getNombre() + ", fechaRealización: " + fechaRealización + ", nota: " + nota + ", profesor: " + profesor;
+        String aDevolver = "asignatura: ";
+        if(asignatura==null){
+            aDevolver+= " ";
+        }else{
+            aDevolver += asignatura.getNombre();
+        }
+        aDevolver += ", alumno: ";
+        if(alumno==null){
+            aDevolver+= " ";
+        }else{
+            aDevolver+= alumno.getNombre();
+        }
+        aDevolver += ", fechaRealización: " + fechaRealización + ", nota: " + nota + ", profesor: " + profesor;
+        return aDevolver;
     }
 }

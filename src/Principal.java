@@ -1,6 +1,6 @@
 import MVC.MC.Controlador;
 import MVC.MC.Modelo;
-import MVC.Vistas.VistaPrincipal;
+import MVC.MC.VistaPrincipal;
 
 import javax.swing.*;
 

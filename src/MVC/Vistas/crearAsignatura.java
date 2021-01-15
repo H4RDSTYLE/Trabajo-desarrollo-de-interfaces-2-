@@ -2,6 +2,7 @@ package MVC.Vistas;
 
 import Excepciones.CampoBlancoException;
 import Excepciones.ObjetoIgualException;
+import MVC.MC.Controlador;
 import MVC.MC.Modelo;
 import base.Asignatura;
 
@@ -21,10 +22,11 @@ public class crearAsignatura extends JDialog {
     private JButton btnAgregar;
     private JButton btnResetear;
     private Modelo modelo;
+    private Controlador controlador;
 
-    public crearAsignatura(Modelo modelo) {
-        System.out.println("HA entrado");
+    public crearAsignatura(Modelo modelo, Controlador controlador) {
         this.modelo = modelo;
+        this.controlador = controlador;
         anadirComboBox();
         actionListeners();
         configUI();
@@ -112,6 +114,7 @@ public class crearAsignatura extends JDialog {
                }
             }
         });
+
         btnSalir.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 dispose();
@@ -143,6 +146,7 @@ public class crearAsignatura extends JDialog {
     private void agregarAsignatura() {
         if(comprobarAsignatura())
             limpiarCampos();
+        controlador.refrescarListaAsignaturas();
     }
 
     private void limpiarCampos() {
@@ -179,6 +183,7 @@ public class crearAsignatura extends JDialog {
                         throw new ObjetoIgualException("asignatura");
                 }
                 modelo.getAsignaturas().add(asignatura);
+                JOptionPane.showMessageDialog(null, "Asignatura introducida con éxito", "Información", JOptionPane.INFORMATION_MESSAGE);
                 return true;
             }
         } catch (Exception e) {
@@ -196,6 +201,7 @@ public class crearAsignatura extends JDialog {
         setVisible(true);
         comboBoxEtapa.setName("Etapa");
         comboBoxCurso.setName("Curso");
+
         setResizable(false);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
