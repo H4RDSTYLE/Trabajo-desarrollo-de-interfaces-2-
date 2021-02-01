@@ -39,6 +39,25 @@ public class Modelo {
         return asignaturas;
     }
 
+    public ArrayList<Examen> getAlumnosNull() {
+        ArrayList<Examen> examenesADevolver = new ArrayList<>();
+        for (Examen examen : examenes){
+            if(examen.getAlumno()==null)
+                examenesADevolver.add(examen);
+
+        }
+        return examenesADevolver;
+    }
+
+    public ArrayList<Examen> getAsignaturasNull() {
+        ArrayList<Examen> examenesADevolver = new ArrayList<>();
+        for (Examen examen : examenes){
+            if(examen.getAsignatura()==null)
+                examenesADevolver.add(examen);
+        }
+        return examenesADevolver;
+    }
+
     public void cambiarExamenesAlumno(Alumno alumnoABuscar, Alumno alumnoPorElQueCambiar){
         for(Examen examen : getExamenes()){
             if(examen.getAlumno().equals(alumnoABuscar))
@@ -66,7 +85,6 @@ public class Modelo {
         oos.close();
     }
 
-    @SuppressWarnings({ "unchecked"})
     public void cargarDatos(File fichero) throws ClassNotFoundException, IOException {
         FileInputStream fis = new FileInputStream(fichero);
         ObjectInputStream ois = new ObjectInputStream(fis);
@@ -82,6 +100,15 @@ public class Modelo {
         for (Alumno alumno : getAlumnos()) {
             alumno.getExamenes().remove(examen);
         }
+    }
+
+    public int buscarExamen(String toString){
+        for(Examen examen : getExamenes()){
+            if(examen.toString().equals(toString)) {
+                return getExamenes().indexOf(examen);
+            }
+        }
+        return -1;
     }
 
     public void eliminarExamenesDeAsignaturas(Examen examen) {

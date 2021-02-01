@@ -3,7 +3,7 @@
   <grid id="cbd77" binding="contentPane" layout-manager="GridLayoutManager" row-count="5" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="10" left="10" bottom="10" right="10"/>
     <constraints>
-      <xy x="48" y="54" width="593" height="297"/>
+      <xy x="48" y="54" width="746" height="297"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -13,7 +13,8 @@
           <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Fecha de Nacimiento"/>
+          <text resource-bundle="idiomaResourceBundle" key="FechaDeNacimiento"/>
+          <toolTipText resource-bundle="idiomaResourceBundle" key="FechaDeNacimiento"/>
         </properties>
       </component>
       <component id="85f0e" class="javax.swing.JLabel">
@@ -21,7 +22,8 @@
           <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Género"/>
+          <text resource-bundle="idiomaResourceBundle" key="Género"/>
+          <toolTipText resource-bundle="idiomaResourceBundle" key="Género"/>
         </properties>
       </component>
       <component id="83a2" class="javax.swing.JLabel">
@@ -29,7 +31,8 @@
           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="DNI"/>
+          <text resource-bundle="idiomaResourceBundle" key="DNI"/>
+          <toolTipText resource-bundle="idiomaResourceBundle" key="DNI"/>
         </properties>
       </component>
       <component id="bb18f" class="javax.swing.JLabel">
@@ -37,7 +40,8 @@
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Nombre"/>
+          <text resource-bundle="idiomaResourceBundle" key="Nombre"/>
+          <toolTipText resource-bundle="idiomaResourceBundle" key="Nombre"/>
         </properties>
       </component>
       <component id="4a59c" class="javax.swing.JTextField" binding="tfNombre">
@@ -56,7 +60,7 @@
         </constraints>
         <properties/>
       </component>
-      <grid id="c23cf" layout-manager="GridLayoutManager" row-count="1" column-count="6" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="c23cf" layout-manager="GridLayoutManager" row-count="3" column-count="8" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
           <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -66,16 +70,16 @@
         <children>
           <component id="ec199" class="javax.swing.JRadioButton" binding="helicopteroRB">
             <constraints>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <grid row="0" column="0" row-span="3" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <selected value="true"/>
               <text value=""/>
             </properties>
           </component>
-          <component id="5503" class="javax.swing.JLabel">
+          <component id="5503" class="javax.swing.JLabel" binding="lblHelicoptero">
             <constraints>
-              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <grid row="0" column="1" row-span="3" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <icon value="images/helicopterIcon.jpg"/>
@@ -84,15 +88,15 @@
           </component>
           <component id="f42e8" class="javax.swing.JRadioButton" binding="femaleRB">
             <constraints>
-              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <grid row="0" column="2" row-span="3" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <text value=""/>
             </properties>
           </component>
-          <component id="d3628" class="javax.swing.JLabel">
+          <component id="d3628" class="javax.swing.JLabel" binding="lblFemenino">
             <constraints>
-              <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <grid row="0" column="3" row-span="3" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <icon value="images/38373.png"/>
@@ -101,19 +105,44 @@
           </component>
           <component id="74c9e" class="javax.swing.JRadioButton" binding="maleRB">
             <constraints>
-              <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <grid row="0" column="4" row-span="3" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <text value=""/>
             </properties>
           </component>
-          <component id="1ee95" class="javax.swing.JLabel">
+          <component id="1ee95" class="javax.swing.JLabel" binding="lblMasculino">
             <constraints>
-              <grid row="0" column="5" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <grid row="0" column="5" row-span="3" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <icon value="images/46042.png"/>
               <text value=""/>
+            </properties>
+          </component>
+          <component id="e6dd" class="javax.swing.JRadioButton" binding="otherRB">
+            <constraints>
+              <grid row="0" column="6" row-span="3" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="7ca8e" class="javax.swing.JLabel" binding="lblNuevoGenero">
+            <constraints>
+              <grid row="0" column="7" row-span="2" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="f0850" class="javax.swing.JButton" binding="nuevoGeneroBtn">
+            <constraints>
+              <grid row="2" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text resource-bundle="idiomaResourceBundle" key="NuevoGenero"/>
+              <toolTipText resource-bundle="idiomaResourceBundle" key="NuevoGenero"/>
             </properties>
           </component>
         </children>
@@ -123,7 +152,9 @@
           <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Crear"/>
+          <background color="-16777216"/>
+          <icon value="images/+.png"/>
+          <toolTipText resource-bundle="idiomaResourceBundle" key="Crear"/>
         </properties>
       </component>
       <component id="4708a" class="javax.swing.JButton" binding="btnSalir">
@@ -131,12 +162,15 @@
           <grid row="4" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Salir"/>
+          <background color="-1"/>
+          <icon value="images/salir.png"/>
+          <text value=""/>
+          <toolTipText resource-bundle="idiomaResourceBundle" key="Salir"/>
         </properties>
       </component>
       <component id="ba1e7" class="com.github.lgooddatepicker.components.DatePicker" binding="dp">
         <constraints>
-          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties/>
       </component>

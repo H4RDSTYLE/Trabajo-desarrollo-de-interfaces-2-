@@ -21,7 +21,8 @@
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Asignatura"/>
+              <text resource-bundle="idiomaResourceBundle" key="Asignatura"/>
+              <toolTipText resource-bundle="idiomaResourceBundle" key="Asignatura"/>
             </properties>
           </component>
           <component id="96a1f" class="javax.swing.JLabel">
@@ -29,7 +30,8 @@
               <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Alumno"/>
+              <text resource-bundle="idiomaResourceBundle" key="Alumno"/>
+              <toolTipText resource-bundle="idiomaResourceBundle" key="Alumno"/>
             </properties>
           </component>
           <component id="6fcb3" class="javax.swing.JLabel">
@@ -37,7 +39,8 @@
               <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Nota"/>
+              <text resource-bundle="idiomaResourceBundle" key="Nota"/>
+              <toolTipText resource-bundle="idiomaResourceBundle" key="Nota"/>
             </properties>
           </component>
           <component id="7f3ef" class="javax.swing.JLabel">
@@ -45,7 +48,8 @@
               <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Profesor"/>
+              <text resource-bundle="idiomaResourceBundle" key="Profesor"/>
+              <toolTipText resource-bundle="idiomaResourceBundle" key="Profesor"/>
             </properties>
           </component>
           <component id="da8be" class="javax.swing.JComboBox" binding="comboBoxAsignatura">
@@ -73,7 +77,8 @@
               <grid row="4" column="0" row-span="2" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Fecha de Realización"/>
+              <text resource-bundle="idiomaResourceBundle" key="fechaDeRealizacion"/>
+              <toolTipText resource-bundle="idiomaResourceBundle" key="fechaDeRealizacion"/>
             </properties>
           </component>
           <component id="e1f48" class="javax.swing.JTextField" binding="profesorTF">
@@ -108,7 +113,8 @@
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="Resetear"/>
+                  <text resource-bundle="idiomaResourceBundle" key="Resetear"/>
+                  <toolTipText resource-bundle="idiomaResourceBundle" key="Resetear"/>
                 </properties>
               </component>
               <component id="a5fc1" class="javax.swing.JButton" binding="salirButton" default-binding="true">
@@ -116,7 +122,9 @@
                   <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="Salir"/>
+                  <background color="-1"/>
+                  <icon value="images/salir.png"/>
+                  <toolTipText resource-bundle="idiomaResourceBundle" key="Salir"/>
                 </properties>
               </component>
               <component id="377f8" class="javax.swing.JButton" binding="crearButton" default-binding="true">
@@ -124,7 +132,10 @@
                   <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="Crear"/>
+                  <background color="-16777216"/>
+                  <icon value="images/+.png"/>
+                  <text value=""/>
+                  <toolTipText resource-bundle="idiomaResourceBundle" key="Crear"/>
                 </properties>
               </component>
             </children>

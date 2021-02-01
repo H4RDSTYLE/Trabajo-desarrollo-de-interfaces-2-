@@ -2,6 +2,8 @@ package MVC.Vistas;
 
 import Excepciones.CampoBlancoException;
 import Excepciones.DniRepetidoException;
+import Excepciones.IDRepeatedException;
+import Excepciones.WhiteCampException;
 import MVC.MC.Controlador;
 import MVC.MC.Modelo;
 import base.Alumno;
@@ -10,7 +12,9 @@ import com.github.lgooddatepicker.components.DatePicker;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 import java.time.LocalDate;
+import java.util.Locale;
 
 public class crearAlumno extends JDialog {
     private JPanel contentPane;
@@ -22,6 +26,12 @@ public class crearAlumno extends JDialog {
     private JRadioButton maleRB;
     private JTextField tfDNI;
     private DatePicker dp;
+    private JRadioButton otherRB;
+    private JButton nuevoGeneroBtn;
+    private JLabel lblNuevoGenero;
+    private JLabel lblHelicoptero;
+    private JLabel lblFemenino;
+    private JLabel lblMasculino;
     private Modelo modelo;
     private Controlador controlador;
 
@@ -57,6 +67,7 @@ public class crearAlumno extends JDialog {
                 if(femaleRB.isSelected()){
                     maleRB.setSelected(false);
                     helicopteroRB.setSelected(false);
+                    otherRB.setSelected(false);
                 }
             }
         });
@@ -67,6 +78,7 @@ public class crearAlumno extends JDialog {
                 if(maleRB.isSelected()){
                     femaleRB.setSelected(false);
                     helicopteroRB.setSelected(false);
+                    otherRB.setSelected(false);
                 }
             }
         });
@@ -77,6 +89,17 @@ public class crearAlumno extends JDialog {
                 if(helicopteroRB.isSelected()){
                     femaleRB.setSelected(false);
                     maleRB.setSelected(false);
+                    otherRB.setSelected(false);
+                }
+            }
+        });
+        otherRB.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(otherRB.isSelected()){
+                    femaleRB.setSelected(false);
+                    maleRB.setSelected(false);
+                    helicopteroRB.setSelected(false);
                 }
             }
         });
@@ -91,6 +114,19 @@ public class crearAlumno extends JDialog {
                 crearAlumno();
             }
         });
+        nuevoGeneroBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser selector = new JFileChooser();
+                int opt = selector.showOpenDialog(getParent());
+
+                if (opt == JFileChooser.APPROVE_OPTION) {
+                    File fichero = selector.getSelectedFile();
+                    lblNuevoGenero.setName(fichero.getPath());
+                    lblNuevoGenero.setIcon(escalarImagen(new ImageIcon(fichero.getPath()), 55, 55));
+                }
+            }
+        });
     }
 
     public void crearAlumno(){
@@ -101,27 +137,63 @@ public class crearAlumno extends JDialog {
 
     private boolean comprobarYCrearAlumno() {
         try{
-            String nombre = tfNombre.getText().toString();
-            String dni = tfDNI.getText().toString();
+            String nombre = tfNombre.getText();
+            String dni = tfDNI.getText();
             LocalDate date = dp.getDate();
-            String genero = "";
-            if(helicopteroRB.isSelected())
-                genero = "Helicoptero Apache";
-            if(maleRB.isSelected())
-                genero = "Masculino";
-            if(femaleRB.isSelected())
-                genero = "Femenino";
+            ImageIcon genero = new ImageIcon();
+            String generoo = "";
+            if(helicopteroRB.isSelected()) {
+                genero = (ImageIcon) lblHelicoptero.getIcon();
+                generoo = "Helicoptero Apache";
+            }
+            if(maleRB.isSelected()) {
+                genero = (ImageIcon) lblMasculino.getIcon();
+                generoo = "Masculino";
+            }
+            if(femaleRB.isSelected()) {
+                genero = (ImageIcon) lblFemenino.getIcon();
+                generoo = "Femenino";
+            }
+            if(otherRB.isSelected()) {
+                genero = (ImageIcon) lblNuevoGenero.getIcon();
+                generoo = "No binario";
+            }
+            try {
+                Image imagen = genero.getImage();
+            }catch (Exception exc){
+                if(Locale.getDefault().toString().equals("es_ES"))
+                    throw new CampoBlancoException("Genero no Binario");
+                else
+                    throw new WhiteCampException("Non-binary gender");
+            }
+            if(maleRB.isSelected()==false && otherRB.isSelected()==false && femaleRB.isSelected()==false && helicopteroRB.isSelected()==false)
+                if(Locale.getDefault().toString().equals("es_ES"))
+                    throw new CampoBlancoException("genero");
+                else
+                    throw new WhiteCampException("gender");
             if (nombre.isEmpty())
-                throw new CampoBlancoException("nombre");
+                if(Locale.getDefault().toString().equals("es_ES"))
+                    throw new CampoBlancoException("nombre");
+                else
+                    throw new WhiteCampException("name");
             if (dni.isEmpty())
-                throw new CampoBlancoException("dni");
+                if(Locale.getDefault().toString().equals("es_ES"))
+                    throw new CampoBlancoException("dni");
+                else
+                    throw new WhiteCampException("id");
             for(Alumno alumno : modelo.getAlumnos()){
                 if(alumno.getDni().equals(dni))
-                    throw new DniRepetidoException();
+                    if(Locale.getDefault().toString().equals("es_ES"))
+                        throw new DniRepetidoException();
+                    else
+                        throw new IDRepeatedException();
             }
-            Alumno alumno = new Alumno(nombre, date, dni, genero);
+            Alumno alumno = new Alumno(nombre, date, dni, genero, generoo);
             modelo.getAlumnos().add(alumno);
-            JOptionPane.showMessageDialog(null, "Alumno introducido con éxito", "Información", JOptionPane.INFORMATION_MESSAGE);
+            if(Locale.getDefault().toString().equals("es_ES"))
+                JOptionPane.showMessageDialog(null, "Alumno introducida con éxito", "Información", JOptionPane.INFORMATION_MESSAGE);
+            else
+                JOptionPane.showMessageDialog(null, "Alumn introduced with exitation", "Information", JOptionPane.INFORMATION_MESSAGE);
             return true;
         } catch (Exception e){
             JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -137,5 +209,11 @@ public class crearAlumno extends JDialog {
         tfNombre.setText("");
         tfDNI.setText("");
         dp.setDate(LocalDate.now());
+    }
+
+    public ImageIcon escalarImagen(ImageIcon icon, int height, int width){
+        Image image = icon.getImage();
+        Image imagenEscalada = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        return new ImageIcon(imagenEscalada);
     }
 }

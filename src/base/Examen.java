@@ -2,6 +2,7 @@ package base;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Locale;
 
 public class Examen implements Serializable {
     private Asignatura asignatura;
@@ -9,6 +10,7 @@ public class Examen implements Serializable {
     private LocalDate fechaRealización;
     private float nota;
     private String profesor;
+
 
     public Examen(Asignatura asignatura, Alumno alumno, LocalDate fechaRealización, float nota, String profesor) {
         this.asignatura = asignatura;
@@ -60,19 +62,30 @@ public class Examen implements Serializable {
 
     @Override
     public String toString() {
-        String aDevolver = "asignatura: ";
-        if(asignatura==null){
-            aDevolver+= " ";
-        }else{
-            aDevolver += asignatura.getNombre();
-        }
-        aDevolver += ", alumno: ";
+        String idioma = Locale.getDefault().toString();
+        if(idioma.equals("es_ES"))
+            return "asignatura: " + getAsignaturaToString() + ", alumno: " + getAlumnoToString() + ", fecha de realización: " + fechaRealización + ", nota: " + nota + ", profesor: " + profesor;
+        else
+            return "subject: " + getAsignaturaToString() + ", alumn: " + getAlumnoToString() + ", date of realization: " + fechaRealización + ", mark: " + nota + ", professor: " + profesor;
+    }
+
+    private String getAlumnoToString() {
+        String aDevolver = "";
         if(alumno==null){
             aDevolver+= " ";
         }else{
             aDevolver+= alumno.getNombre();
         }
-        aDevolver += ", fechaRealización: " + fechaRealización + ", nota: " + nota + ", profesor: " + profesor;
+        return aDevolver;
+    }
+
+    public String getAsignaturaToString(){
+        String aDevolver = "";
+        if(asignatura==null){
+            aDevolver+= " ";
+        }else{
+            aDevolver += asignatura.getNombre();
+        }
         return aDevolver;
     }
 }

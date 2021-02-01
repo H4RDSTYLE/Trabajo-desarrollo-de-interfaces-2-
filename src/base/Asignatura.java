@@ -2,6 +2,7 @@ package base;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class Asignatura implements Serializable {
 
@@ -46,7 +47,11 @@ public class Asignatura implements Serializable {
 
     @Override
     public String toString() {
-        return "nombre: " + nombre  + ", rama: " + rama  + ", curso: " + curso + ", etapa: " + etapa;
+        String idioma = Locale.getDefault().toString();
+        if(idioma.equals("es_ES"))
+            return "nombre: " + nombre  + ", rama: " + rama  + ", curso: " + curso + ", etapa: " + etapa;
+        else
+            return "name: " + nombre + ", branch: " + rama + ", curse: " + curso + ", stage: " + etapa;
     }
 
     public ArrayList<Examen> getExamenes() {

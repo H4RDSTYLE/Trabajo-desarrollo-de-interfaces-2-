@@ -1,7 +1,9 @@
 package MVC.Vistas;
 
 import Excepciones.CampoBlancoException;
+import Excepciones.ObjectEqualsException;
 import Excepciones.ObjetoIgualException;
+import Excepciones.WhiteCampException;
 import MVC.MC.Controlador;
 import MVC.MC.Modelo;
 import base.Asignatura;
@@ -9,6 +11,7 @@ import base.Asignatura;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Locale;
 
 public class crearAsignatura extends JDialog {
     private JPanel contentPane;
@@ -169,21 +172,36 @@ public class crearAsignatura extends JDialog {
     private Boolean comprobarAsignatura() {
         try {
             if (tfNombre.getText().isEmpty())
-                throw new CampoBlancoException("nombre");
+                if(Locale.getDefault().toString().equals("es_ES"))
+                    throw new CampoBlancoException("nombre");
+                else
+                    throw new WhiteCampException("name");
             if(comboBoxEtapa.getSelectedItem().equals("")) {
-                throw new CampoBlancoException("etapa");
+                if(Locale.getDefault().toString().equals("es_ES"))
+                    throw new CampoBlancoException("etapa");
+                else
+                    throw new WhiteCampException("etapation");
             }
             else {
                 if(comboBoxCurso.getSelectedItem().equals(null)||comboBoxCurso.getSelectedItem().equals("")){
-                    throw new CampoBlancoException("curso");
+                    if(Locale.getDefault().toString().equals("es_ES"))
+                        throw new CampoBlancoException("curso");
+                    else
+                        throw new WhiteCampException("curse");
                 }
                 Asignatura asignatura = new Asignatura(tfNombre.getText(), getSelectedRama(), Integer.valueOf(comboBoxCurso.getSelectedItem().toString()), comboBoxEtapa.getSelectedItem().toString());
                 for(Asignatura asignaturaa : modelo.getAsignaturas()) {
                     if (asignatura.toString().equals(asignaturaa.toString()))
-                        throw new ObjetoIgualException("asignatura");
+                        if(Locale.getDefault().toString().equals("es_ES"))
+                            throw new ObjetoIgualException("asignatura");
+                        else
+                            throw new ObjectEqualsException("asignaturation");
                 }
                 modelo.getAsignaturas().add(asignatura);
-                JOptionPane.showMessageDialog(null, "Asignatura introducida con éxito", "Información", JOptionPane.INFORMATION_MESSAGE);
+                if(Locale.getDefault().toString().equals("es_ES"))
+                    JOptionPane.showMessageDialog(null, "Asignatura introducida con éxito", "Información", JOptionPane.INFORMATION_MESSAGE);
+                else
+                    JOptionPane.showMessageDialog(null, "Asignaturation introduced with exitation", "Information", JOptionPane.INFORMATION_MESSAGE);
                 return true;
             }
         } catch (Exception e) {
@@ -201,7 +219,6 @@ public class crearAsignatura extends JDialog {
         setVisible(true);
         comboBoxEtapa.setName("Etapa");
         comboBoxCurso.setName("Curso");
-
         setResizable(false);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {

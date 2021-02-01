@@ -7,7 +7,6 @@ import base.Examen;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
 
 public class VistaPrincipal extends Component{
     private JPanel panel1;
@@ -20,43 +19,102 @@ public class VistaPrincipal extends Component{
     private JList listExamenes;
     private DefaultListModel<Alumno> modelAlumnos;
     private DefaultListModel<Examen> modelExamenes;
+    private DefaultComboBoxModel<String> modelLetra;
     private DefaultListModel<Asignatura> modelAsignatura;
     private JTabbedPane tabbedPane1;
     private JTabbedPane tabbedPane2;
     private JButton btnGuardar;
     private JButton btnCargar;
-    private JButton button3;
     private JPanel VerEditar;
+    private JRadioButton ukRB;
+    private JRadioButton esRB;
+    private JComboBox comboBox1;
+    private JPanel panelColor;
+    private JPanel panelRellenar;
+    private JPanel panelRellenar2;
+    private JPanel panelRellenar3;
+    private JLabel lblTipoLetra;
+    private JButton aplicarButton;
+    private JLabel lblColor;
+    private JLabel lblIdioma;
 
     public VistaPrincipal() {
-        setMnemonics();
-        setToolTips();
         initUI();
         initListas();
     }
 
-    private void setToolTips() {
-        btnGuardar.setToolTipText("Guardar");
-        btnCargar.setToolTipText("Cargar");
-        tabbedPane1.setToolTipTextAt(0, "Crear");
-        tabbedPane1.setToolTipTextAt(1, "Ver/Editar");
-        tabbedPane1.setToolTipTextAt(2, "Opciones");
-        tabbedPane2.setToolTipTextAt(0, "Ver Alumnos");
-        tabbedPane2.setToolTipTextAt(1, "Ver Asignaturas");
-        tabbedPane2.setToolTipTextAt(2, "Ver Examenes");
+    private void initListas() {
+        modelAlumnos = new DefaultListModel();
+        listaAlumnos.setModel(modelAlumnos);
+        modelExamenes = new DefaultListModel<>();
+        listExamenes.setModel(modelExamenes);
+        modelAsignatura = new DefaultListModel<>();
+        listAsignaturas.setModel(modelAsignatura);
     }
 
-    private void setMnemonics() {
-        btnGuardar.setMnemonic(KeyEvent.VK_G);
-        btnCargar.setMnemonic(KeyEvent.VK_H);
-        tabbedPane1.setMnemonicAt(0, KeyEvent.VK_C);
-        tabbedPane1.setMnemonicAt(1, KeyEvent.VK_V);
-        tabbedPane1.setMnemonicAt(2, KeyEvent.VK_O);
-        tabbedPane2.setMnemonicAt(0, KeyEvent.VK_A);
-        tabbedPane2.setMnemonicAt(1, KeyEvent.VK_S);
-        tabbedPane2.setMnemonicAt(2, KeyEvent.VK_E);
+    public void initUI(){
+        JFrame frame = new JFrame();
+        frame.setTitle("AEA");
+        frame.setContentPane(panel1);
+        frame.setBounds(new Rectangle(660, 400));
+        frame.setLocationRelativeTo(null);
+        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        frame.getRootPane().setDefaultButton(btnCargar);
+        panelCrear.setLayout(new WrapLayout(FlowLayout.LEADING));
+        frame.setVisible(true);
     }
 
+    public JPanel getPanel1() {
+        return panel1;
+    }
+
+    public JTabbedPane getTabbedPane1() {
+        return tabbedPane1;
+    }
+
+    public JTabbedPane getTabbedPane2() {
+        return tabbedPane2;
+    }
+
+    public JPanel getVerEditar() {
+        return VerEditar;
+    }
+
+    public JRadioButton getUkRB() {
+        return ukRB;
+    }
+
+    public JPanel getPanelRellenar() {
+        return panelRellenar;
+    }
+
+    public JPanel getPanelRellenar2() {
+        return panelRellenar2;
+    }
+
+    public JPanel getPanelRellenar3() {
+        return panelRellenar3;
+    }
+
+    public JPanel getPanelCrear() {
+        return panelCrear;
+    }
+
+    public JRadioButton getRadioButton1() {
+        return ukRB;
+    }
+
+    public JRadioButton getEsRB() {
+        return esRB;
+    }
+
+    public JComboBox getComboBox1() {
+        return comboBox1;
+    }
+
+    public JPanel getPanelColor() {
+        return panelColor;
+    }
 
     public JButton getBtnGuardar() {
         return btnGuardar;
@@ -78,25 +136,16 @@ public class VistaPrincipal extends Component{
         return modelAsignatura;
     }
 
-    private void initListas() {
-        modelAlumnos = new DefaultListModel();
-        listaAlumnos.setModel(modelAlumnos);
-        modelExamenes = new DefaultListModel<>();
-        listExamenes.setModel(modelExamenes);
-        modelAsignatura = new DefaultListModel<>();
-        listAsignaturas.setModel(modelAsignatura);
+    public JLabel getLblIdioma() {
+        return lblIdioma;
     }
 
+    public JLabel getLblColor() {
+        return lblColor;
+    }
 
-    public void initUI(){
-        JFrame frame = new JFrame();
-        frame.setContentPane(panel1);
-        frame.setVisible(true);
-        frame.setBounds(new Rectangle(640, 340));
-        frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        frame.getRootPane().setDefaultButton(btnCargar);
-        panelCrear.setLayout(new WrapLayout(FlowLayout.LEADING));
+    public JButton getAplicarButton() {
+        return aplicarButton;
     }
 
     public JButton getBtnAlumno() {
@@ -123,6 +172,13 @@ public class VistaPrincipal extends Component{
         return btnExamen;
     }
 
+    public JLabel getLblTipoLetra() {
+        return lblTipoLetra;
+    }
+
+    private void createUIComponents() {
+        comboBox1 = new JComboBox(Toolkit.getDefaultToolkit().getFontList());
+    }
 }
 
 

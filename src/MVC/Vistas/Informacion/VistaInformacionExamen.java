@@ -2,6 +2,7 @@ package MVC.Vistas.Informacion;
 
 import Excepciones.CampoBlancoException;
 import Excepciones.ObjetoIgualException;
+import Excepciones.WhiteCampException;
 import MVC.MC.Modelo;
 import base.Alumno;
 import base.Asignatura;
@@ -11,6 +12,7 @@ import com.github.lgooddatepicker.components.DatePicker;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Locale;
 
 public class VistaInformacionExamen extends JDialog {
     private int posicion;
@@ -94,17 +96,30 @@ public class VistaInformacionExamen extends JDialog {
         Float nota;
         try{
             if(profesorTF.getText().isEmpty())
-                throw new CampoBlancoException("profesor");
+                if(Locale.getDefault().toString().equals("es_ES"))
+                    throw new CampoBlancoException("profesor");
+                else
+                    throw new WhiteCampException("professor");
             if(notaTF.getText().isEmpty())
-                throw new CampoBlancoException("nota");
+                if(Locale.getDefault().toString().equals("es_ES"))
+                    throw new CampoBlancoException("nota");
+                else
+                    throw new WhiteCampException("mark");
             try{
                 nota = Float.valueOf(notaTF.getText().replace(",","."));
-                if (nota<0 || nota>10)
-                    throw new Exception("La nota tiene que estar entre 0 y 10");
+                if (nota<0 || nota>10) {
+                    if(Locale.getDefault().toString().equals("es_ES"))
+                        throw new Exception("La nota tiene que estar entre 0 y 10");
+                    else
+                        throw new Exception("The mark has to be between 0 and 10");
+                }
             }catch (Exception e){
                 if(e.getMessage()!="")
                     throw new Exception(e.getMessage());
-                throw new Exception("La nota tiene que estar entre 0 y 10");
+                if(Locale.getDefault().toString().equals("es_ES"))
+                    throw new Exception("La nota tiene que estar entre 0 y 10");
+                else
+                    throw new Exception("The mark has to be between 0 and 10");
             }
             Asignatura asignatura;
             if(comboBoxAsignatura.getSelectedItem().equals(""))
@@ -117,17 +132,16 @@ public class VistaInformacionExamen extends JDialog {
             else
                 alumno = modelo.getAlumnos().get(comboBoxAlumno.getSelectedIndex()-1);
             Examen examen = new Examen(asignatura, alumno, dp.getDate(), nota, profesorTF.getText());
-            for(Examen exameen : modelo.getExamenes()) {
-                if (exameen.toString().equals(examen.toString()))
-                    throw new ObjetoIgualException("examen");
-            }
             eliminarEnUsuarioYAsignatura(examen);
             if(alumno!=null)
                 modelo.getAlumnos().get(comboBoxAlumno.getSelectedIndex()-1).getExamenes().add(examen);
             if(asignatura!=null)
                 modelo.getAsignaturas().get(comboBoxAsignatura.getSelectedIndex()-1).getExamenes().add(examen);
             modelo.getExamenes().set(posicion, examen);
-            JOptionPane.showMessageDialog(null, "Examen modificado con éxito", "Información", JOptionPane.INFORMATION_MESSAGE);
+            if(Locale.getDefault().toString().equals("es_ES"))
+                JOptionPane.showMessageDialog(null, "Examen modificado con éxito", "Información", JOptionPane.INFORMATION_MESSAGE);
+            else
+                JOptionPane.showMessageDialog(null, "Exam modify with exitation", "Information", JOptionPane.INFORMATION_MESSAGE);
             return true;
         }catch(Exception e){
             e.printStackTrace();
