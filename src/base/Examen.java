@@ -3,72 +3,127 @@ package base;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Locale;
-
+/**
+ * A class which represents an exam
+ * @author Hugo Melon
+ * @since JDK8
+ * @version 1.0
+ */
 public class Examen implements Serializable {
     private Asignatura asignatura;
     private Alumno alumno;
-    private LocalDate fechaRealización;
+    private LocalDate fechaRealizacion;
     private float nota;
     private String profesor;
 
+    /**
+     * Construct an exam using:
+     * @param asignatura An object course
+     * @param alumno An object alumn
+     * @param fechaRealizacion The date of realization
+     * @param nota The mark
+     * @param profesor The professor which was present during the exam
+     */
 
-    public Examen(Asignatura asignatura, Alumno alumno, LocalDate fechaRealización, float nota, String profesor) {
+    public Examen(Asignatura asignatura, Alumno alumno, LocalDate fechaRealizacion, float nota, String profesor) {
         this.asignatura = asignatura;
         this.alumno = alumno;
-        this.fechaRealización = fechaRealización;
+        this.fechaRealizacion = fechaRealizacion;
         this.nota = nota;
         this.profesor = profesor;
     }
 
+    /**
+     *
+     * @return An object Course
+     */
     public Asignatura getAsignatura() {
         return asignatura;
     }
 
+    /**
+     *
+     * @param asignatura sets the course
+     */
     public void setAsignatura(Asignatura asignatura) {
         this.asignatura = asignatura;
     }
-
+    /**
+     *
+     * @return An object Student
+     */
     public Alumno getAlumno() {
         return alumno;
     }
 
+    /**
+     *
+     * @param alumno Sets the student
+     */
     public void setAlumno(Alumno alumno) {
         this.alumno = alumno;
     }
-
-    public LocalDate getFechaRealización() {
-        return fechaRealización;
+    /**
+     *
+     * @return A localdate object with the date of realization
+     */
+    public LocalDate getFechaRealizacion() {
+        return fechaRealizacion;
     }
-
-    public void setFechaRealización(LocalDate fechaRealización) {
-        this.fechaRealización = fechaRealización;
+    /**
+     * Sets the date of realization
+     * @param fechaRealizacion fecha
+     */
+    public void setFechaRealizacion(LocalDate fechaRealizacion) {
+        this.fechaRealizacion = fechaRealizacion;
     }
-
+    /**
+     *
+     * @return the mark
+     */
     public float getNota() {
         return nota;
     }
 
+    /**
+     * Sets the mark
+     * @param nota nota
+     */
     public void setNota(float nota) {
         this.nota = nota;
     }
-
+    /**
+     *
+     * @return The professor
+     */
     public String getProfesor() {
         return profesor;
     }
 
+    /**
+     * Sets the professor
+     * @param profesor profesor
+     */
     public void setProfesor(String profesor) {
         this.profesor = profesor;
     }
-
+    /**
+     *
+     * @return An string with all the object information
+     */
     @Override
     public String toString() {
         String idioma = Locale.getDefault().toString();
         if(idioma.equals("es_ES"))
-            return "asignatura: " + getAsignaturaToString() + ", alumno: " + getAlumnoToString() + ", fecha de realización: " + fechaRealización + ", nota: " + nota + ", profesor: " + profesor;
+            return "asignatura: " + getAsignaturaToString() + ", alumno: " + getAlumnoToString() + ", fecha de realización: " + fechaRealizacion + ", nota: " + nota + ", profesor: " + profesor;
         else
-            return "subject: " + getAsignaturaToString() + ", alumn: " + getAlumnoToString() + ", date of realization: " + fechaRealización + ", mark: " + nota + ", professor: " + profesor;
+            return "subject: " + getAsignaturaToString() + ", alumn: " + getAlumnoToString() + ", date of realization: " + fechaRealizacion + ", mark: " + nota + ", professor: " + profesor;
     }
 
+    /**
+     *
+     * @return The toString of the student
+     */
     private String getAlumnoToString() {
         String aDevolver = "";
         if(alumno==null){
@@ -78,7 +133,10 @@ public class Examen implements Serializable {
         }
         return aDevolver;
     }
-
+    /**
+     *
+     * @return The toString of the course
+     */
     public String getAsignaturaToString(){
         String aDevolver = "";
         if(asignatura==null){

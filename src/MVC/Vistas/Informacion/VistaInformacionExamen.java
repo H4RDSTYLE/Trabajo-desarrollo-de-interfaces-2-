@@ -1,7 +1,6 @@
 package MVC.Vistas.Informacion;
 
 import Excepciones.CampoBlancoException;
-import Excepciones.ObjetoIgualException;
 import Excepciones.WhiteCampException;
 import MVC.MC.Modelo;
 import base.Alumno;
@@ -14,6 +13,12 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.Locale;
 
+/**
+ * JDialog which shows the information of the student
+ * @author Hugo
+ * @since JDK8
+ * @version 1.0
+ */
 public class VistaInformacionExamen extends JDialog {
     private int posicion;
     private JPanel contentPane;
@@ -29,6 +34,11 @@ public class VistaInformacionExamen extends JDialog {
     private Asignatura asignatura;
     private Examen examen;
 
+    /**
+     * Creates the object
+     * @param modelo modelo
+     * @param posicion posicion
+     */
     public VistaInformacionExamen(Modelo modelo, int posicion) {
         this.modelo = modelo;
         this.posicion = posicion;
@@ -40,6 +50,10 @@ public class VistaInformacionExamen extends JDialog {
         initUI();
     }
 
+    /**
+     * Puts the data of the exam onto the dialog
+     * @param examen Object Exam
+     */
     private void ponerDatosExamen(Examen examen) {
         DefaultComboBoxModel cbAsignatura = new DefaultComboBoxModel();
         cbAsignatura.addElement("");
@@ -61,11 +75,14 @@ public class VistaInformacionExamen extends JDialog {
         else{
             comboBoxAlumno.setSelectedItem("");
         }
-        dp.setDate(examen.getFechaRealización());
+        dp.setDate(examen.getFechaRealizacion());
         notaTF.setText(String.valueOf(examen.getNota()));
         profesorTF.setText(examen.getProfesor());
     }
 
+    /**
+     * Adds the ActionListeners
+     */
     private void ActionListeners() {
         btnSalir.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -92,6 +109,10 @@ public class VistaInformacionExamen extends JDialog {
         });
     }
 
+    /**
+     * Checks that the information of the exam is Ok
+     * @return True si los datos están correctos, False si no
+     */
     private boolean comprobar() {
         Float nota;
         try{
@@ -150,6 +171,10 @@ public class VistaInformacionExamen extends JDialog {
         }
     }
 
+    /**
+     * Deletes the exam into the student and mark
+     * @param examenAIntroducir Object Exam
+     */
     private void eliminarEnUsuarioYAsignatura(Examen examenAIntroducir){
         if(alumno!=null)
             alumno.getExamenes().remove(examen);
@@ -157,6 +182,9 @@ public class VistaInformacionExamen extends JDialog {
             asignatura.getExamenes().remove(examen);
     }
 
+    /**
+     * Inits the UI
+     */
     private void initUI() {
         setContentPane(contentPane);
         setBounds(new Rectangle(800,300));

@@ -8,7 +8,6 @@ import MVC.MC.Controlador;
 import MVC.MC.Modelo;
 import base.Alumno;
 import com.github.lgooddatepicker.components.DatePicker;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -16,6 +15,13 @@ import java.io.File;
 import java.time.LocalDate;
 import java.util.Locale;
 
+/**
+ *
+ * JDialog which is used to create a student
+ * @author Hugo
+ * @version 1.0
+ * @since JDK8
+ */
 public class crearAlumno extends JDialog {
     private JPanel contentPane;
     private JButton btnCrear;
@@ -35,6 +41,11 @@ public class crearAlumno extends JDialog {
     private Modelo modelo;
     private Controlador controlador;
 
+    /**
+     * Creates the object
+     * @param modelo modelo
+     * @param controlador controlador
+     */
     public crearAlumno(Modelo modelo, Controlador controlador) {
         dp.setDate(LocalDate.now());
         this.modelo = modelo;
@@ -43,6 +54,9 @@ public class crearAlumno extends JDialog {
         initUI();
     }
 
+    /**
+     * Inits the Graphic Interface
+     */
     private void initUI() {
         setContentPane(contentPane);
         getRootPane().setDefaultButton(btnSalir);
@@ -60,6 +74,9 @@ public class crearAlumno extends JDialog {
         });
     }
 
+    /**
+     * Adds Listeners
+     */
     private void addActionListener() {
         femaleRB.addActionListener(new ActionListener() {
             @Override
@@ -129,12 +146,19 @@ public class crearAlumno extends JDialog {
         });
     }
 
+    /**
+     * Creates the student
+     */
     public void crearAlumno(){
         if(comprobarYCrearAlumno())
             limpiarCampos();
         controlador.refrescarListaAlumnos();
     }
 
+    /**
+     * Checks if the alumn is OK and creates it
+     * @return
+     */
     private boolean comprobarYCrearAlumno() {
         try{
             String nombre = tfNombre.getText();
@@ -201,7 +225,9 @@ public class crearAlumno extends JDialog {
         }
     }
 
-
+    /**
+     * Cleans the form
+     */
     private void limpiarCampos() {
         helicopteroRB.setSelected(true);
         femaleRB.setSelected(false);
@@ -211,6 +237,13 @@ public class crearAlumno extends JDialog {
         dp.setDate(LocalDate.now());
     }
 
+    /**
+     * Escales the image
+     * @param icon imagen
+     * @param height alto
+     * @param width ancho
+     * @return imagen
+     */
     public ImageIcon escalarImagen(ImageIcon icon, int height, int width){
         Image image = icon.getImage();
         Image imagenEscalada = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);

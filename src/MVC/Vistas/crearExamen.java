@@ -17,6 +17,12 @@ import java.awt.event.*;
 import java.time.LocalDate;
 import java.util.Locale;
 
+/**
+ * JDialog which is used to create an exam
+ * @author Hugo
+ * @version 1.0
+ * @since JDK8
+ */
 public class crearExamen extends JDialog {
     private JPanel contentPane;
     private JComboBox comboBoxAsignatura;
@@ -29,16 +35,22 @@ public class crearExamen extends JDialog {
     private DatePicker datePicker;
     private Modelo modelo;
     private Controlador controlador;
-
+    /**
+     * Object Constructor
+     * @param modelo modelo
+     * @param controlador controlador
+     */
     public crearExamen(Modelo modelo, Controlador controlador) {
         this.modelo = modelo;
         this.controlador = controlador;
         initComboBox();
         AddActionListener();
         initUI();
-
     }
 
+    /**
+     * Initialices ComboBox
+     */
     private void initComboBox() {
         comboBoxAlumno.addItem("");
         if (!modelo.getAlumnos().isEmpty()) {
@@ -54,13 +66,16 @@ public class crearExamen extends JDialog {
         }
     }
 
+    /**
+     * Inits the Graphic Interface
+     */
     private void initUI() {
         setContentPane(contentPane);
         getRootPane().setDefaultButton(salirButton);
         setBounds(new Rectangle(650, 300));
         setLocationRelativeTo(null);
         setModal(true);
-        setResizable(false);
+        setResizable(true);
         datePicker.setDate(LocalDate.now());
         setVisible(true);
         // call onCancel() when cross is clicked
@@ -72,6 +87,9 @@ public class crearExamen extends JDialog {
         });
     }
 
+    /**
+     * Adds Action Listeners
+     */
     private void AddActionListener() {
         crearButton.addActionListener(new ActionListener() {
             @Override
@@ -95,6 +113,10 @@ public class crearExamen extends JDialog {
         });
     }
 
+    /**
+     * Checks if the exam is OK
+     * @return True si los datos están correctos, False si no
+     */
     private boolean comprobar() {
         Float nota;
         try{
@@ -161,6 +183,9 @@ public class crearExamen extends JDialog {
         }
     }
 
+    /**
+     * resets the form
+     */
     private void resetear() {
         notaTF.setText("");
         profesorTF.setText("");

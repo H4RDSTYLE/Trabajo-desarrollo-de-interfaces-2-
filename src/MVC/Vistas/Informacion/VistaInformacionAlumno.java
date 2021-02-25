@@ -4,8 +4,16 @@ import Excepciones.CampoBlancoException;
 import Excepciones.WhiteCampException;
 import MVC.MC.Modelo;
 import base.Alumno;
+import base.Cromo;
 import base.Examen;
 import com.github.lgooddatepicker.components.DatePicker;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.swing.JRViewer;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -18,9 +26,16 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+/**
+ * JDialog which shows the information of the student
+ * @author Hugo
+ * @since JDK8
+ * @version 1.0
+ */
 public class VistaInformacionAlumno extends JDialog implements KeyListener{
     private int posicion;
     private Modelo modelo;
@@ -51,9 +66,21 @@ public class VistaInformacionAlumno extends JDialog implements KeyListener{
     private JList listExamenesNull;
     private JButton btnExamenAnadir;
     private JPanel btnAnadirExamen;
-    private DefaultListModel<String> examenDefaultListModel;
+    private JButton btnNotas;
+    private JList listCromosAlumno;
+    private JList listCromosTotales;
+    private JButton quitarCromosButton;
+    private JButton agregarCromosButton;
+    private DefaultListModel<Examen> examenDefaultListModel;
+    private DefaultListModel<Cromo> cromosNoAlumno;
+    private DefaultListModel<Cromo> cromosSiAlumno;
     private Alumno alumno;
 
+    /**
+     * Creates the object
+     * @param modelo modelo
+     * @param posicion posicion
+     */
     public VistaInformacionAlumno(Modelo modelo, int posicion) {
         this.posicion = posicion;
         this.modelo = modelo;
@@ -66,6 +93,9 @@ public class VistaInformacionAlumno extends JDialog implements KeyListener{
         internacionalizarTabbedPane();
     }
 
+    /**
+     * Internationalize the tabbed pane
+     */
     private void internacionalizarTabbedPane() {
         ResourceBundle bundle = ResourceBundle.getBundle("idiomaResourceBundle");
         tabbedPane1.getTabComponentAt(0).setName(bundle.getString("Examenes"));
@@ -73,6 +103,9 @@ public class VistaInformacionAlumno extends JDialog implements KeyListener{
         tabbedPane1.getTabComponentAt(2).setName(bundle.getString("AgregarExamen"));
     }
 
+    /**
+     * Adds the exams that hasnt a Student
+     */
     private void anadirExamenesAAnadir() {
         DefaultListModel<Examen> listModelNullExamen = new DefaultListModel<>();
         listModelNullExamen.clear();
@@ -81,6 +114,10 @@ public class VistaInformacionAlumno extends JDialog implements KeyListener{
         listExamenesNull.setModel(listModelNullExamen);
     }
 
+    /**
+     * Creates a graphic pannel
+     * @param tipo tipo de gráfico
+     */
     private void crearGrafico(String tipo) {
         panelGraficos.removeAll();
         DefaultCategoryDataset dpd = new DefaultCategoryDataset();
@@ -105,6 +142,10 @@ public class VistaInformacionAlumno extends JDialog implements KeyListener{
     }
 
 
+    /**
+     * Sets the information
+     * @param alumno Objeto Alumno
+     */
     private void setInformacion(Alumno alumno) {
         tfNombre.setText(alumno.getNombre());
         dp.setDate(alumno.getFechaNacimiento());
@@ -128,10 +169,34 @@ public class VistaInformacionAlumno extends JDialog implements KeyListener{
         if(alumno.getExamenes().size()!=0)
             System.out.println("Entar");
             for(Examen examen : alumno.getExamenes())
-                examenDefaultListModel.addElement(examen.toString());
+                examenDefaultListModel.addElement(examen);
         listExamenes.setModel(examenDefaultListModel);
+        crearListas();
     }
 
+    private void crearListas() {
+        cromosNoAlumno = new DefaultListModel<>();
+        cromosSiAlumno = new DefaultListModel<>();
+        cromosNoAlumno.removeAllElements();
+        cromosSiAlumno.removeAllElements();
+        for(Cromo cromo : modelo.getCromos()){
+            boolean loTiene = false;
+            for(Alumno alumno1 : cromo.getAlumnos()){
+                if(alumno1.equals(alumno))
+                    loTiene = true;
+            }
+            if(loTiene)
+                cromosSiAlumno.addElement(cromo);
+            else
+                cromosNoAlumno.addElement(cromo);
+        }
+        listCromosAlumno.setModel(cromosSiAlumno);
+        listCromosTotales.setModel(cromosNoAlumno);
+    }
+
+    /**
+     * Inits the Graphic interface
+     */
     private void initUI() {
         setContentPane(contentPane);
         setBounds(new Rectangle(540,300));
@@ -147,16 +212,58 @@ public class VistaInformacionAlumno extends JDialog implements KeyListener{
         });
     }
 
+    /**
+     * Adds ActionListeners
+     */
     private void actionListeners() {
         listExamenes.addKeyListener(this);
+        agregarCromosButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ArrayList<Cromo> cromos = (ArrayList<Cromo>)listCromosTotales.getSelectedValuesList();
+                for (Cromo cromo : cromos)
+                    modelo.getCromos().get(modelo.getCromos().indexOf(cromo)).getAlumnos().add(alumno);
+                crearListas();
+            }
+        });
+        quitarCromosButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ArrayList<Cromo> cromos = (ArrayList<Cromo>)listCromosAlumno.getSelectedValuesList();
+                for (Cromo cromo : cromos)
+                    modelo.getCromos().get(modelo.getCromos().indexOf(cromo)).getAlumnos().remove(alumno);
+                crearListas();
+            }
+        });
         btnExamenAnadir.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Examen examen = (Examen) listExamenesNull.getSelectedValue();
-                examen.setAlumno(modelo.getAlumnos().get(posicion));
-                modelo.getAlumnos().get(posicion).getExamenes().add(examen);
+                ArrayList<Examen> examenes = (ArrayList<Examen>) listExamenesNull.getSelectedValuesList();
+                for(Examen examen : examenes) {
+                    examen.setAlumno(modelo.getAlumnos().get(posicion));
+                    modelo.getAlumnos().get(posicion).getExamenes().add(examen);
+                }
                 recargarLista();
                 anadirExamenesAAnadir();
+            }
+        });
+        btnNotas.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JasperReport report = null;
+                try {
+                    report = (JasperReport) JRLoader.loadObject(new File("informes/Cherry.jasper"));
+                    JRBeanCollectionDataSource coleccion = new JRBeanCollectionDataSource(modelo.getAlumnos());
+                    JasperPrint jasperPrint = JasperFillManager.fillReport(report, null, coleccion);
+                    JRViewer visor = new JRViewer(jasperPrint);
+                    //Creo un JDialog para mostrar el informe
+                    JDialog dialog = new JDialog();
+                    dialog.getContentPane().add(visor);
+                    dialog.setBounds(new Rectangle(700, 700));
+                    dialog.setVisible(true);
+                } catch (JRException ex) {
+                    ex.printStackTrace();
+                }
             }
         });
         btnModificarExamen.addActionListener(new ActionListener() {
@@ -228,6 +335,7 @@ public class VistaInformacionAlumno extends JDialog implements KeyListener{
                         }
                         modelo.cambiarExamenesAlumno(alumno, alumnoEditado);
                     }
+                    modelo.updateCromos(alumno, alumnoEditado);
                     modelo.getAlumnos().set(posicion, alumnoEditado);
                     JOptionPane.showMessageDialog(null, "Alumno editado con éxito", "Información", JOptionPane.INFORMATION_MESSAGE);
                     dispose();
@@ -314,24 +422,20 @@ public class VistaInformacionAlumno extends JDialog implements KeyListener{
         });
     }
 
-    @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-
-    }
-
+    /**
+     * Método que reacciona ante la liberación de la tecla al pulsarla
+     * @param e Tipo de tecla que ha sido pulsada
+     */
     @Override
     public void keyReleased(KeyEvent e) {
         if(e.getKeyCode()==KeyEvent.VK_DELETE){
-            Examen examenAModificar = alumno.getExamenes().get(listExamenes.getSelectedIndex());
-            alumno.getExamenes().remove(listExamenes.getSelectedIndex());
-            for(Examen examen : modelo.getExamenes()){
-                if(examenAModificar.equals(examen)){
-                    examen.setAlumno(null);
+            ArrayList<Examen> examenes = (ArrayList<Examen>) listExamenes.getSelectedValuesList();
+            for(Examen examenLista : examenes) {
+                alumno.getExamenes().remove(examenLista);
+                for (Examen examen : modelo.getExamenes()) {
+                    if (examenLista.equals(examen)) {
+                        examen.setAlumno(null);
+                    }
                 }
             }
             recargarLista();
@@ -340,16 +444,36 @@ public class VistaInformacionAlumno extends JDialog implements KeyListener{
         }
     }
 
+    /**
+     * Escalates an image
+     * @param icon Imagen
+     * @param height alto
+     * @param width ancho
+     * @return Imagen
+     */
     public ImageIcon escalarImagen(ImageIcon icon, int height, int width){
         Image image = icon.getImage();
         Image imagenEscalada = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
         return new ImageIcon(imagenEscalada);
     }
 
+    /**
+     * Recharge the list
+     */
     private void recargarLista() {
         examenDefaultListModel.clear();
         for(Examen examen : alumno.getExamenes()){
-            examenDefaultListModel.addElement(examen.toString());
+            examenDefaultListModel.addElement(examen);
         }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+
     }
 }

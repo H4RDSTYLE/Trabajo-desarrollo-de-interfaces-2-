@@ -1,17 +1,17 @@
 package MVC.MC;
 
+import MVC.Vistas.*;
 import MVC.Vistas.Informacion.VistaInformacionAlumno;
 import MVC.Vistas.Informacion.VistaInformacionAsignatura;
+import MVC.Vistas.Informacion.VistaInformacionCromo;
 import MVC.Vistas.Informacion.VistaInformacionExamen;
-import MVC.Vistas.crearAlumno;
-import MVC.Vistas.crearAsignatura;
-import MVC.Vistas.crearExamen;
 import base.Alumno;
 import base.Asignatura;
+import base.Cromo;
 import base.Examen;
-import sun.awt.windows.WFontConfiguration;
+import org.icepdf.ri.common.SwingController;
+import org.icepdf.ri.common.SwingViewBuilder;
 
-import javax.rmi.CORBA.Util;
 import javax.swing.*;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 import javax.swing.event.*;
@@ -25,6 +25,12 @@ import java.util.Locale;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
+/**
+ * Class which represents a Controller using the code pattern of model-view-controller
+ * @author Hugo
+ * @since JDK8
+ * @version 1.0
+ */
 public class Controlador implements ActionListener, ListSelectionListener, KeyListener, FocusListener, MouseListener, ChangeListener, ItemListener{
     private Modelo modelo;
     private VistaPrincipal vista;
@@ -32,6 +38,11 @@ public class Controlador implements ActionListener, ListSelectionListener, KeyLi
     private JColorChooser jcc;
     private AbstractColorChooserPanel acchp;
 
+    /**
+     * Constructs a Controller using:
+     * @param modelo A model
+     * @param vista A view
+     */
     public Controlador(Modelo modelo, VistaPrincipal vista) {
         this.modelo = modelo;
         this.vista = vista;
@@ -51,6 +62,9 @@ public class Controlador implements ActionListener, ListSelectionListener, KeyLi
         setConfiguracion();
     }
 
+    /**
+     * Reads the configuration file and changes the view of the program using the information readed.
+     */
     private void setConfiguracion() {
         Properties properties = new Properties();
         try {
@@ -73,10 +87,17 @@ public class Controlador implements ActionListener, ListSelectionListener, KeyLi
         }
     }
 
+    /**
+     * Adds an ItemListener to the objects which needs it
+     * @param listener ItemListener
+     */
     private void addItemListeners(ItemListener listener) {
         vista.getComboBox1().addItemListener(listener);
     }
 
+    /**
+     * Sets the tooltips of the view
+     */
     private void setToolTips() {
         ResourceBundle resourceBundle = ResourceBundle.getBundle("idiomaResourceBundle");
         vista.getTabbedPane1().setToolTipTextAt(0, resourceBundle.getString("Crear"));
@@ -87,6 +108,9 @@ public class Controlador implements ActionListener, ListSelectionListener, KeyLi
         vista.getTabbedPane2().setToolTipTextAt(2, resourceBundle.getString("Ver Examenes"));
     }
 
+    /**
+     * Sets the Mnemonics of the view
+     */
     private void setMnemonics() {
         vista.getBtnGuardar().setMnemonic(KeyEvent.VK_G);
         vista.getBtnGuardar().setMnemonic(KeyEvent.VK_H);
@@ -98,19 +122,32 @@ public class Controlador implements ActionListener, ListSelectionListener, KeyLi
         vista.getTabbedPane2().setMnemonicAt(2, KeyEvent.VK_E);
     }
 
+    /**
+     * Adds a MouseListener to the objects which needs it
+     * @param listener MouseListener
+     */
     private void addMouseListeners(MouseListener listener) {
         vista.getListaAlumnos().addMouseListener(listener);
         vista.getListExamenes().addMouseListener(listener);
         vista.getListAsignaturas().addMouseListener(listener);
         vista.getPanelColor().addMouseListener(listener);
+        vista.getCromosJList().addMouseListener(listener);
     }
 
+    /**
+     * Adds a KeyListener to the objects which needs it
+     * @param listener KeyListener
+     */
     private void addKeyListener(KeyListener listener) {
         vista.getListAsignaturas().addKeyListener(listener);
         vista.getListExamenes().addKeyListener(listener);
         vista.getListaAlumnos().addKeyListener(listener);
+        vista.getCromosJList().addKeyListener(listener);
     }
 
+    /**
+     * Refresh the list of the courses
+     */
     public void refrescarListaAsignaturas(){
         vista.getModelAsignatura().clear();
         for(Asignatura asignatura : modelo.getAsignaturas()){
@@ -118,6 +155,9 @@ public class Controlador implements ActionListener, ListSelectionListener, KeyLi
         }
     }
 
+    /**
+     * Refresh the list of exams
+     */
     public void refrescarListaExamenes(){
         vista.getModelExamenes().clear();
         for(Examen examen : modelo.getExamenes()){
@@ -125,6 +165,9 @@ public class Controlador implements ActionListener, ListSelectionListener, KeyLi
         }
     }
 
+    /**
+     * Refresh the list of students
+     */
     public void refrescarListaAlumnos() {
         vista.getModelAlumnos().clear();
         for(Alumno alumno : modelo.getAlumnos()){
@@ -132,22 +175,37 @@ public class Controlador implements ActionListener, ListSelectionListener, KeyLi
         }
     }
 
+    /**
+     * Adds an ListSelectionListener to the objects which needs it
+     * @param listener ListSelectionListener
+     */
     private void addListSelectionListener(ListSelectionListener listener) {
         vista.getListaAlumnos().addListSelectionListener(listener);
         vista.getListAsignaturas().addListSelectionListener(listener);
         vista.getListExamenes().addListSelectionListener(listener);
     }
-
+    /**
+     * Adds an ChangeListener to the objects which needs it
+     * @param listener ChangeListener
+     */
     private void addOnStateChangeListener(ChangeListener listener){
         jcc.getSelectionModel().addChangeListener(this);
     }
-
+    /**
+     * Adds a FocusListener to the objects which needs it
+     * @param listener FocusListener
+     */
     private void addFocusListener(FocusListener listener){
         vista.getListaAlumnos().addFocusListener(listener);
         vista.getListExamenes().addFocusListener(listener);
         vista.getListAsignaturas().addFocusListener(listener);
+        vista.getCromosJList().addFocusListener(listener);
     }
 
+    /**
+     * Adds an ActionListener to the objects which needs it
+     * @param listener ActionListener
+     */
     private void addActionListener(ActionListener listener) {
         vista.getBtnCargar().addActionListener(listener);
         vista.getBtnGuardar().addActionListener(listener);
@@ -157,13 +215,39 @@ public class Controlador implements ActionListener, ListSelectionListener, KeyLi
         vista.getEsRB().addActionListener(listener);
         vista.getUkRB().addActionListener(listener);
         vista.getAplicarButton().addActionListener(listener);
+        vista.getBtnCromo().addActionListener(listener);
+        vista.itemInformes.addActionListener(listener);
+        vista.itemManualUser.addActionListener(listener);
     }
 
-
+    /**
+     *Método que reacciona ante el ActionListener
+     * @param e This method controls which object has received an actionEvent and does something.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         String comando = e.getActionCommand();
         switch (comando) {
+            case "Informes":
+                DialogoInformes dialogoInformes = new DialogoInformes(modelo);
+                break;
+            case "ManualUser":
+                SwingController controller = new SwingController();
+                SwingViewBuilder factory = new SwingViewBuilder(controller);
+
+
+                JPanel viewerPanel = factory.buildViewerPanel();
+
+
+                JFrame frame = new JFrame("Visor Pdf");
+                frame.setContentPane(viewerPanel);
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.pack();
+                frame.setLocationRelativeTo(null);
+                frame.setVisible(true);
+
+                controller.openDocument(getClass().getResource("/MANUAL_DE_USUARIO.pdf"));
+                break;
             case "UK":
                 vista.getEsRB().setSelected(false);
                 Locale.setDefault(Locale.ENGLISH);
@@ -195,6 +279,7 @@ public class Controlador implements ActionListener, ListSelectionListener, KeyLi
                 refrescarListaAsignaturas();
                 refrescarListaAlumnos();
                 refrescarListaExamenes();
+                refrescarListaCromos();
                 break;
             case  "btnGuardar":
                 selector = new JFileChooser();
@@ -207,6 +292,10 @@ public class Controlador implements ActionListener, ListSelectionListener, KeyLi
                         e1.printStackTrace();
                     }
                 }
+                break;
+            case "cromo":
+                crearCromo cc = new crearCromo(modelo);
+                refrescarListaCromos();
                 break;
             case "aplicar":
                 Properties propiedades = new Properties();
@@ -233,22 +322,26 @@ public class Controlador implements ActionListener, ListSelectionListener, KeyLi
         }
     }
 
-    @Override
-    public void valueChanged(ListSelectionEvent e) {
+    /**
+     * Método que refresca la lista de los cromos
+     */
+    private void refrescarListaCromos() {
+        vista.getModelCromo().clear();
+        for(Cromo cromo : modelo.getCromos()){
+            vista.getModelCromo().addElement(cromo);
+        }
     }
 
-    @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
-
+    /**
+     * Método que reacciona ante la liberación de una tecla que ha sido pulsada
+     * @param e gets which object has received an actionEvent and does something
+     */
     @Override
     public void keyPressed(KeyEvent e) {
         if(e.getKeyCode()==KeyEvent.VK_DELETE){
             if(foco.equals("alumno")){
                 modelo.cambiarExamenesAlumno(modelo.getAlumnos().get(vista.getListaAlumnos().getSelectedIndex()), null);
                 modelo.getAlumnos().remove(vista.getListaAlumnos().getSelectedIndex());
-                refrescarListaAlumnos();
             }
             if(foco.equals("asignaturas")){
                 modelo.cambiarExamenesAsignatura(modelo.getAsignaturas().get(vista.getListAsignaturas().getSelectedIndex()), null);
@@ -259,13 +352,20 @@ public class Controlador implements ActionListener, ListSelectionListener, KeyLi
                 modelo.eliminarExamenesDeAlumnos(modelo.getExamenes().get(vista.getListExamenes().getSelectedIndex()));
                 modelo.eliminarExamenesDeAsignaturas(modelo.getExamenes().get(vista.getListExamenes().getSelectedIndex()));
                 modelo.getExamenes().remove(vista.getListExamenes().getSelectedIndex());
-                refrescarListaAsignaturas();
-                refrescarListaAlumnos();
             }
+            if(foco.equals("cromos")){
+                modelo.getCromos().remove(vista.getCromosJList().getSelectedIndex());
+            }
+            refrescarListaAsignaturas();
+            refrescarListaAlumnos();
             refrescarListaExamenes();
+            refrescarListaCromos();
         }
     }
 
+    /**
+     * Adds a ColorChooser panel
+     */
     private void addPanelColor() {
         jcc = new JColorChooser();
         AbstractColorChooserPanel[] accp = jcc.getChooserPanels();
@@ -273,41 +373,55 @@ public class Controlador implements ActionListener, ListSelectionListener, KeyLi
         vista.getPanelColor().add(acchp);
     }
 
-    @Override
-    public void keyReleased(KeyEvent e) {
-    }
-
+    /**
+     * Changes the variable "foco" when the focus changes.
+     * @param e FocusEvent
+     */
     @Override
     public void focusGained(FocusEvent e) {
         this.foco = e.getComponent().getName();
-        System.out.println(foco);
     }
 
+    /**
+     * Changes the variable foco to "" when the focus is lost
+     * @param e FocusEvent
+     */
     @Override
     public void focusLost(FocusEvent e) {
         this.foco = "";
     }
 
+    /**
+     * Gets a Mouse Event, checks the object which has received it and does something.
+     * @param e MouseEvent
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
         if(e.getClickCount()==2){
             switch (e.getComponent().getName()){
                 case "alumno":
                     VistaInformacionAlumno via = new VistaInformacionAlumno(modelo, vista.getListaAlumnos().getSelectedIndex());
-                    refrescarListaAlumnos();
                     break;
                 case "asignaturas":
                     VistaInformacionAsignatura viasign = new VistaInformacionAsignatura(modelo, vista.getListAsignaturas().getSelectedIndex());
-                    refrescarListaAsignaturas();
                     break;
                 case "examenes":
                     VistaInformacionExamen vie = new VistaInformacionExamen(modelo, vista.getListExamenes().getSelectedIndex());
-                    refrescarListaExamenes();
+                    break;
+                case "cromos":
+                    VistaInformacionCromo vic = new VistaInformacionCromo(modelo, vista.getCromosJList().getSelectedIndex());
                     break;
             }
+            refrescarListaAlumnos();
+            refrescarListaCromos();
+            refrescarListaAsignaturas();
+            refrescarListaExamenes();
         }
     }
 
+    /**
+     * Sets action commands on all needed objects
+     */
     private void setActionCommand() {
         vista.getBtnCargar().setActionCommand("btnCargar");
         vista.getBtnGuardar().setActionCommand("btnGuardar");
@@ -317,11 +431,88 @@ public class Controlador implements ActionListener, ListSelectionListener, KeyLi
         vista.getListaAlumnos().setName("alumno");
         vista.getListAsignaturas().setName("asignaturas");
         vista.getListExamenes().setName("examenes");
+        vista.getCromosJList().setName("cromos");
         vista.getUkRB().setActionCommand("UK");
         vista.getEsRB().setActionCommand("ES");
         vista.getAplicarButton().setActionCommand("aplicar");
+        vista.getBtnCromo().setActionCommand("cromo");
     }
 
+    /**
+     * On color changed changes the color of the view
+     * @param e ChangeEvent
+     */
+    @Override
+    public void stateChanged(ChangeEvent e) {
+        cambiarColor(jcc.getColor());
+    }
+
+    /**
+     * Changes the color of the view
+     * @param color Color
+     */
+    private void cambiarColor(Color color) {
+        vista.getPanelColor().setBackground(color);
+        vista.getPanelCrear().setBackground(color);
+        vista.getPanel1().setBackground(color);
+        vista.getPanelRellenar().setBackground(color);
+        vista.getPanelRellenar2().setBackground(color);
+        vista.getPanelRellenar3().setBackground(color);
+        acchp.setBackground(color);
+        vista.getTabbedPane2().setBackground(color);
+        vista.getTabbedPane1().setBackground(color);
+    }
+
+    /**
+     * Changes the font
+     * @param e itemEvent
+     */
+
+    @Override
+    public void itemStateChanged(ItemEvent e) {
+        if(e.getStateChange()==ItemEvent.SELECTED)
+            cambiarFuente(new Font(e.getItem().toString(), Font.PLAIN, 14));
+    }
+
+    /**
+     * Método que obtiene el tipo de Letra
+     * @return the font of the preferences file.
+     */
+    public String obtenerTipoLetra() {
+
+        Locale locale = null;
+
+        Properties properties = new Properties();
+        String tipoLetra = "";
+        try {
+            properties.load(new FileReader("data/preferencias.conf"));
+            tipoLetra = properties.getProperty("tipoLetra");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return tipoLetra;
+    }
+
+    /**
+     * Changes the font of the view
+     * @param font Font
+     */
+    private void cambiarFuente(Font font) {
+        vista.getLblTipoLetra().setFont(font);
+        vista.getLblColor().setFont(font);
+        vista.getTabbedPane1().setFont(font);
+        vista.getTabbedPane2().setFont(font);
+        vista.getLblIdioma().setFont(font);
+        vista.getAplicarButton().setFont(font);
+    }
+    @Override
+    public void valueChanged(ListSelectionEvent e) {
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
     @Override
     public void mousePressed(MouseEvent e) {
 
@@ -341,51 +532,7 @@ public class Controlador implements ActionListener, ListSelectionListener, KeyLi
     public void mouseExited(MouseEvent e) {
 
     }
-
     @Override
-    public void stateChanged(ChangeEvent e) {
-        cambiarColor(jcc.getColor());
-    }
-
-    private void cambiarColor(Color color) {
-        vista.getPanelColor().setBackground(color);
-        vista.getPanelCrear().setBackground(color);
-        vista.getPanel1().setBackground(color);
-        vista.getPanelRellenar().setBackground(color);
-        vista.getPanelRellenar2().setBackground(color);
-        vista.getPanelRellenar3().setBackground(color);
-        acchp.setBackground(color);
-        vista.getTabbedPane2().setBackground(color);
-        vista.getTabbedPane1().setBackground(color);
-    }
-
-    @Override
-    public void itemStateChanged(ItemEvent e) {
-        if(e.getStateChange()==ItemEvent.SELECTED)
-            cambiarFuente(new Font(e.getItem().toString(), Font.PLAIN, 14));
-    }
-
-    public String obtenerTipoLetra() {
-
-        Locale locale = null;
-
-        Properties properties = new Properties();
-        String tipoLetra = "";
-        try {
-            properties.load(new FileReader("data/preferencias.conf"));
-            tipoLetra = properties.getProperty("tipoLetra");
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return tipoLetra;
-    }
-
-    private void cambiarFuente(Font font) {
-        vista.getLblTipoLetra().setFont(font);
-        vista.getLblColor().setFont(font);
-        vista.getTabbedPane1().setFont(font);
-        vista.getTabbedPane2().setFont(font);
-        vista.getLblIdioma().setFont(font);
-        vista.getAplicarButton().setFont(font);
+    public void keyReleased(KeyEvent e) {
     }
 }

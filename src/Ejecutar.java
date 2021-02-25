@@ -11,6 +11,10 @@ import java.io.IOException;
 import java.util.Locale;
 import java.util.Properties;
 
+/**
+ * Its the main class, from this class you will execute the program.
+ * @author Hugo
+ */
 public class Ejecutar {
     public static void main(String[] args){
         JFrame.setDefaultLookAndFeelDecorated(true);
@@ -28,6 +32,9 @@ public class Ejecutar {
         
     }
 
+    /**
+     * Creates if doesnt exists the data directory
+     */
     public static void crearSiNoExisteDirectorioDatos(){
         File directorio = new File("data");
         if(!directorio.exists()) {
@@ -35,6 +42,10 @@ public class Ejecutar {
         }
     }
 
+    /**
+     * Método que obtiene la localización del usuario
+     * @return localización
+     */
     public static Locale obtenerLocale() {
 
         Locale locale = null;

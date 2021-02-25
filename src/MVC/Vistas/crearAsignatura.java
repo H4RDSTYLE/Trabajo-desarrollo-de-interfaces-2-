@@ -12,7 +12,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Locale;
-
+/**
+ * JDialog which is used to create a course
+ */
 public class crearAsignatura extends JDialog {
     private JPanel contentPane;
     private JTextField tfNombre;
@@ -27,6 +29,11 @@ public class crearAsignatura extends JDialog {
     private Modelo modelo;
     private Controlador controlador;
 
+    /**
+     * Object Constructor
+     * @param modelo modelo
+     * @param controlador controlador
+     */
     public crearAsignatura(Modelo modelo, Controlador controlador) {
         this.modelo = modelo;
         this.controlador = controlador;
@@ -35,6 +42,9 @@ public class crearAsignatura extends JDialog {
         configUI();
     }
 
+    /**
+     * Adds ComboBox
+     */
     private void anadirComboBox() {
         comboBoxEtapa.addItem("");
         comboBoxEtapa.addItem("Infantil");
@@ -44,6 +54,9 @@ public class crearAsignatura extends JDialog {
         comboBoxCurso.setEnabled(false);
     }
 
+    /**
+     * Adds ActionListeners
+     */
     private void actionListeners() {
 
         cienciasRadioButton.addActionListener(new ActionListener() {
@@ -146,12 +159,18 @@ public class crearAsignatura extends JDialog {
         });
     }
 
+    /**
+     * Adds the course
+     */
     private void agregarAsignatura() {
         if(comprobarAsignatura())
             limpiarCampos();
         controlador.refrescarListaAsignaturas();
     }
 
+    /**
+     * Cleans the form
+     */
     private void limpiarCampos() {
         tfNombre.setText("");
         comboBoxEtapa.setSelectedItem("");
@@ -160,6 +179,10 @@ public class crearAsignatura extends JDialog {
         socialesRadioButton.setSelected(false);
     }
 
+    /**
+     * Gets the branch
+     * @return Sociales si ha sido seleccionado o en caso contrario Letras o Ciencias
+     */
     private String getSelectedRama(){
         if(socialesRadioButton.isSelected())
             return "Sociales";
@@ -169,6 +192,10 @@ public class crearAsignatura extends JDialog {
             return "Ciencias";
     }
 
+    /**
+     * Checks the course
+     * @return True si los datos están correctos, False si no
+     */
     private Boolean comprobarAsignatura() {
         try {
             if (tfNombre.getText().isEmpty())
@@ -210,6 +237,9 @@ public class crearAsignatura extends JDialog {
         }
     }
 
+    /**
+     * Configs the Graphic Interface
+     */
     private void configUI() {
         setContentPane(contentPane);
         getRootPane().setDefaultButton(btnSalir);

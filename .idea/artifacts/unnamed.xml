@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="unnamed">
+    <output-path>$PROJECT_DIR$/out/artifacts/unnamed</output-path>
+    <root id="archive" name="unnamed.jar">
+      <element id="directory" name="base">
+        <element id="file-copy" path="$PROJECT_DIR$/out/production/TrabajoSegundaEvaluacion/base/Alumno.class" />
+        <element id="file-copy" path="$PROJECT_DIR$/out/production/TrabajoSegundaEvaluacion/base/Asignatura.class" />
+        <element id="file-copy" path="$PROJECT_DIR$/out/production/TrabajoSegundaEvaluacion/base/Cromo.class" />
+        <element id="file-copy" path="$PROJECT_DIR$/out/production/TrabajoSegundaEvaluacion/base/Examen.class" />
+      </element>
+    </root>
+  </artifact>
+</component>

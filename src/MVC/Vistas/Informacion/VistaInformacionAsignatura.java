@@ -11,8 +11,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.SQLOutput;
+import java.util.ArrayList;
 import java.util.Locale;
 
+/**
+ * JDialog which shows the information of the student
+ * @author Hugo
+ * @since JDK8
+ * @version 1.0
+ */
 public class VistaInformacionAsignatura extends JDialog implements KeyListener{
     private JPanel contentPane;
     private JTextField tfNombre;
@@ -30,8 +37,13 @@ public class VistaInformacionAsignatura extends JDialog implements KeyListener{
     private Asignatura asignatura;
     private Modelo modelo;
     private int posicion;
-    private DefaultListModel<String> dlmExamenes;
+    private DefaultListModel<Examen> dlmExamenes;
 
+    /**
+     * Creates the object
+     * @param modelo modelo
+     * @param posicion posicion
+     */
     public VistaInformacionAsignatura(Modelo modelo, int posicion){
         this.asignatura = modelo.getAsignaturas().get(posicion);
         this.modelo = modelo;
@@ -43,6 +55,10 @@ public class VistaInformacionAsignatura extends JDialog implements KeyListener{
         initUI();
     }
 
+    /**
+     * Puts all the data of the course into the dialog
+     * @param asignatura Objeto Asignatura
+     */
     private void ponerDatos(Asignatura asignatura) {
         tfNombre.setText(asignatura.getNombre());
         cbEtapa.setSelectedItem(asignatura.getEtapa());
@@ -60,11 +76,14 @@ public class VistaInformacionAsignatura extends JDialog implements KeyListener{
         }
         dlmExamenes = new DefaultListModel();
         for(Examen examen : asignatura.getExamenes()){
-            dlmExamenes.addElement(examen.toString());
+            dlmExamenes.addElement(examen);
         }
         listExamenes.setModel(dlmExamenes);
     }
 
+    /**
+     * Adds information into a ComboBox
+     */
     private void anadirComboBox() {
         cbEtapa.addItem("");
         cbEtapa.addItem("Infantil");
@@ -73,6 +92,9 @@ public class VistaInformacionAsignatura extends JDialog implements KeyListener{
         cbEtapa.addItem("Bachillerato");
     }
 
+    /**
+     * Adds exams into the dlm
+     */
     private void anadirExamenesAAnadir() {
         DefaultListModel<Examen> listModelNullExamen = new DefaultListModel<>();
         listModelNullExamen.clear();
@@ -81,6 +103,9 @@ public class VistaInformacionAsignatura extends JDialog implements KeyListener{
         listExamenesNull.setModel(listModelNullExamen);
     }
 
+    /**
+     * Inits the graphic Interface
+     */
     private void initUI() {
         setContentPane(contentPane);
         setBounds(new Rectangle(490, 300));
@@ -97,14 +122,19 @@ public class VistaInformacionAsignatura extends JDialog implements KeyListener{
         });
     }
 
+    /**
+     * Adds the Action Listeners
+     */
     private void actionListeners() {
 
         btnExamenAnadir.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Examen examen = (Examen) listExamenesNull.getSelectedValue();
-                examen.setAsignatura(modelo.getAsignaturas().get(posicion));
-                modelo.getAsignaturas().get(posicion).getExamenes().add(examen);
+                ArrayList<Examen> examenes = (ArrayList<Examen>) listExamenesNull.getSelectedValuesList();
+                for(Examen examen : examenes) {
+                    examen.setAsignatura(modelo.getAsignaturas().get(posicion));
+                    modelo.getAsignaturas().get(posicion).getExamenes().add(examen);
+                }
                 recargarLista();
                 anadirExamenesAAnadir();
             }
@@ -200,6 +230,10 @@ public class VistaInformacionAsignatura extends JDialog implements KeyListener{
         });
     }
 
+    /**
+     * Modifies a course
+     * @return True si los datos son correctos, False si no
+     */
     private Boolean modificarAsignatura() {
         try {
             if (tfNombre.getText().isEmpty())
@@ -238,6 +272,10 @@ public class VistaInformacionAsignatura extends JDialog implements KeyListener{
         }
     }
 
+    /**
+     * gets a branch
+     * @return Sociales si se ha seleccionado, en caso contrario Letras o Ciencias
+     */
     private String getRama() {
         if(socialesRadioButton.isSelected())
             return "Sociales";
@@ -247,6 +285,36 @@ public class VistaInformacionAsignatura extends JDialog implements KeyListener{
             return "Ciencias";
     }
 
+    /**
+     * Do something on keyReleased
+     * @param e Evento de pulsación
+     */
+    @Override
+    public void keyReleased(KeyEvent e) {
+        if(e.getKeyCode()==KeyEvent.VK_DELETE){
+            ArrayList<Examen> examenes = (ArrayList<Examen>) listExamenes.getSelectedValuesList();
+            for(Examen exam : examenes){
+                asignatura.getExamenes().remove(listExamenes.getSelectedIndex());
+                for(Examen examen : modelo.getExamenes()){
+                    if(exam.equals(examen)){
+                        examen.setAsignatura(null);
+                    }
+                }
+            }
+            recargarLista();
+            anadirExamenesAAnadir();
+        }
+    }
+
+    /**
+     * Recharges a List
+     */
+    private void recargarLista() {
+        dlmExamenes.clear();
+        for(Examen examen : asignatura.getExamenes()){
+            dlmExamenes.addElement(examen);
+        }
+    }
     @Override
     public void keyTyped(KeyEvent e) {
 
@@ -255,27 +323,5 @@ public class VistaInformacionAsignatura extends JDialog implements KeyListener{
     @Override
     public void keyPressed(KeyEvent e) {
 
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-        if(e.getKeyCode()==KeyEvent.VK_DELETE){
-            Examen examenAModificar = asignatura.getExamenes().get(listExamenes.getSelectedIndex());
-            asignatura.getExamenes().remove(listExamenes.getSelectedIndex());
-            for(Examen examen : modelo.getExamenes()){
-                if(examenAModificar.equals(examen)){
-                    examen.setAsignatura(null);
-                }
-            }
-            recargarLista();
-            anadirExamenesAAnadir();
-        }
-    }
-
-    private void recargarLista() {
-        dlmExamenes.clear();
-        for(Examen examen : asignatura.getExamenes()){
-            dlmExamenes.addElement(examen.toString());
-        }
     }
 }
